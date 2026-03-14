@@ -1,0 +1,6 @@
+# plik gitignore ktory bedzie zapobirgal dodawaniu (przypadkowemu) plikow wykonywalnych, obiektowych, ect.
+
+*.exe
+*.o
+compile_commands.json
+.clangd/
