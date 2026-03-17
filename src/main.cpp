@@ -1,8 +1,10 @@
+#include "../include/greetings.hpp"
 #include <iostream>
 
 using namespace std;
 
 int main() {
-  cout << "Hello wordl" << endl;
+  greetings();
+
   return 0;
 }
