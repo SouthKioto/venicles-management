@@ -1,8 +1,22 @@
-### Venicle Management System
+# Venicle Management System
 
-# system zarzadzania pojazdami
+### Aplikacja do zarzadzania flota pojazdow
 
-### Link do grafu UML
+## 🛠️ Setup (Linux)
+
+Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Linux
+
+### 1. Wymagania systemowe
+Zainstaluj kompilator C++, bibliotekę wxWidgets oraz narzędzie do generowania bazy kompilacji dla LSP:
+
+```bash
+sudo pacman -Syu
+sudo pacman -S build-essential libwxgtk3.2-dev bear
+
+## 🛠️ Setup (Windows)
+
+Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Windows
 
 
-[Link do grafu UML](https://drive.google.com/drive/folders/1TSfxyxucRKsKFRkgWkN4eWMo-Y3OVn6n)
+
+

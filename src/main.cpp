@@ -1,10 +1,19 @@
-#include "../include/greetings.hpp"
-#include <iostream>
+#include "../include/controller/GreetingsController.hpp"
+#include "model/Greetings.hpp"
+#include "view/MainView.hpp"
+#include <wx/wx.h>
 
-using namespace std;
+class MyApp : public wxApp {
+public:
+  virtual bool OnInit() {
+    Greetings *model = new Greetings();
+    MainView *view = new MainView();
 
-int main() {
-  greetings();
+    new GreetingsController(model, view);
 
-  return 0;
-}
+    view->Show(true);
+    return true;
+  }
+};
+
+wxIMPLEMENT_APP(MyApp);
