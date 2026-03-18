@@ -17,19 +17,26 @@ sudo pacman -S build-essential libwxgtk3.2-dev bear
 ### Kompilacja 
 ```bash
 # kompilacja model
-g++ -std=c++17 -Iinclude $(wx-config --cxxflags) -c src/model/Greetings.cpp -o src/model/Greetings.o
+g++ -Wall -Wextra -std=c++17 -Iinclude -I/usr/lib/wx/include/gtk3-unicode-3.2 -I/usr/include/wx-3.2 -DWXUSINGDLL -D__WXGTK3__ -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -c src/model/Greetings.cpp -o src/model/Greetings.o
 
 # kompilacja widok
-g++ -std=c++17 -Iinclude $(wx-config --cxxflags) -c src/view/MainView.cpp -o src/view/MainView.o
+g++ -Wall -Wextra -std=c++17 -Iinclude -I/usr/lib/wx/include/gtk3-unicode-3.2 -I/usr/include/wx-3.2 -DWXUSINGDLL -D__WXGTK3__ -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -c src/view/MainView.cpp -o src/view/MainView.o
 
 # kompilacja kontroler
-g++ -std=c++17 -Iinclude $(wx-config --cxxflags) -c src/controller/GreetingsController.cpp -o src/controller/GreetingsController.o
+g++ -Wall -Wextra -std=c++17 -Iinclude -I/usr/lib/wx/include/gtk3-unicode-3.2 -I/usr/include/wx-3.2 -DWXUSINGDLL -D__WXGTK3__ -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -c src/controller/GreetingsController.cpp -o src/controller/GreetingsController.o
 
 # kompilacja main
-g++ -std=c++17 -Iinclude $(wx-config --cxxflags) -c src/main.cpp -o src/main.o
+g++ -Wall -Wextra -std=c++17 -Iinclude -I/usr/lib/wx/include/gtk3-unicode-3.2 -I/usr/include/wx-3.2 -DWXUSINGDLL -D__WXGTK3__ -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -c src/main.cpp -o src/main.o
 
 # laczenie w program
-g++ src/main.o src/model/Greetings.o src/view/MainView.o src/controller/GreetingsController.o -o main $(wx-config --libs)
+g++ src/main.o src/controller/GreetingsController.o src/model/Greetings.o src/view/MainView.o -o main -lwx_gtk3u_xrc-3.2 -lwx_gtk3u_html-3.2 -lwx_gtk3u_qa-3.2 -lwx_gtk3u_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2
+```
+
+### Jesli wysietlaja sie jakies dziwne błędy
+### (ale kompilacja przebiegła bez problemu)
+
+```bash
+bear -- make clean main
 ```
 
 ## 🛠️ Setup (Windows)
