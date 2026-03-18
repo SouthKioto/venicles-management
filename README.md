@@ -76,6 +76,6 @@ Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Windows
 ### 1. Wymagania systemowe
 
     - zainstalujcie MSYS2 (bedziemy uzywac terminala MSYS2 MinGW 64-bit)
-
+    (zmiany)
 
 
