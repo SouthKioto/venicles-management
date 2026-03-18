@@ -14,7 +14,7 @@ sudo pacman -Syu
 sudo pacman -S build-essential libwxgtk3.2-dev bear
 ```
 
-### Kompilacja 
+### 2. Kompilacja 
 ```bash
 # kompilacja model
 g++ -Wall -Wextra -std=c++17 -Iinclude -I/usr/lib/wx/include/gtk3-unicode-3.2 -I/usr/include/wx-3.2 -DWXUSINGDLL -D__WXGTK3__ -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -c src/model/Greetings.cpp -o src/model/Greetings.o
@@ -39,7 +39,7 @@ Jesli wysietlaja sie jakies dziwne błędy ale kompilacja przebiegła bez proble
 bear -- make clean main
 ```
 
-### Mój makefile
+### 3. Mój makefile
 
 ```makefile
 
@@ -70,6 +70,8 @@ clean:
 ## 🛠️ Setup (Windows)
 
 Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Windows
+
+(w toku)
 
 
 
