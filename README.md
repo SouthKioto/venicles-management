@@ -31,12 +31,40 @@ g++ -Wall -Wextra -std=c++17 -Iinclude -I/usr/lib/wx/include/gtk3-unicode-3.2 -I
 # laczenie w program
 g++ src/main.o src/controller/GreetingsController.o src/model/Greetings.o src/view/MainView.o -o main -lwx_gtk3u_xrc-3.2 -lwx_gtk3u_html-3.2 -lwx_gtk3u_qa-3.2 -lwx_gtk3u_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2
 ```
+(to jest przykład kompilacji, dla 100 lub wiecej plików tak nie robimy)
 
-### Jesli wysietlaja sie jakies dziwne błędy
-### (ale kompilacja przebiegła bez problemu)
+Jesli wysietlaja sie jakies dziwne błędy ale kompilacja przebiegła bez problemu
 
 ```bash
 bear -- make clean main
+```
+
+### Mój makefile
+
+```makefile
+
+CXX = g++
+CXXFLAGS = -Wall -Wextra -std=c++17 -Iinclude $(shell wx-config --cxxflags)
+LDFLAGS = $(shell wx-config --libs)
+
+OBJ = src/main.o \
+      src/controller/GreetingsController.o \
+      src/model/Greetings.o \
+      src/view/MainView.o
+
+all: main
+
+main: $(OBJ)
+	$(CXX) $(OBJ) -o main $(LDFLAGS)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+clean:
+	rm -f src/*.o src/controller/*.o src/model/*.o src/view/*.o main
+
+.PHONY: all clean
+
 ```
 
 ## 🛠️ Setup (Windows)
