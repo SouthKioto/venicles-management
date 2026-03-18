@@ -12,6 +12,7 @@ Zainstaluj kompilator C++, bibliotekę wxWidgets oraz narzędzie do generowania 
 ```bash
 sudo pacman -Syu
 sudo pacman -S build-essential libwxgtk3.2-dev bear
+```
 
 ## 🛠️ Setup (Windows)
 
