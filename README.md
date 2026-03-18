@@ -15,6 +15,9 @@ sudo pacman -S build-essential libwxgtk3.2-dev bear
 ```
 
 ### 2. Kompilacja 
+<br>
+(to jest przykład kompilacji, dla 100 lub wiecej plików tak nie robimy)
+
 ```bash
 # kompilacja model
 g++ -Wall -Wextra -std=c++17 -Iinclude -I/usr/lib/wx/include/gtk3-unicode-3.2 -I/usr/include/wx-3.2 -DWXUSINGDLL -D__WXGTK3__ -D__WXGTK__ -D_FILE_OFFSET_BITS=64 -c src/model/Greetings.cpp -o src/model/Greetings.o
@@ -31,9 +34,8 @@ g++ -Wall -Wextra -std=c++17 -Iinclude -I/usr/lib/wx/include/gtk3-unicode-3.2 -I
 # laczenie w program
 g++ src/main.o src/controller/GreetingsController.o src/model/Greetings.o src/view/MainView.o -o main -lwx_gtk3u_xrc-3.2 -lwx_gtk3u_html-3.2 -lwx_gtk3u_qa-3.2 -lwx_gtk3u_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2
 ```
-(to jest przykład kompilacji, dla 100 lub wiecej plików tak nie robimy)
 
-Jesli wysietlaja sie jakies dziwne błędy ale kompilacja przebiegła bez problemu
+## Jesli wysietlaja sie jakies dziwne błędy ale kompilacja przebiegła bez problemu
 
 ```bash
 bear -- make clean main
