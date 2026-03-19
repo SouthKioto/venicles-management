@@ -51,17 +51,30 @@ Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Windows
 
 zainstalujcie MSYS2 (bedziemy uzywac terminala MSYS2 MinGW 64-bit)
     
-## Po instalacji uruchomcie konsolę, przejdzcie pod katalog z projektem (ja trzymam na C, najprostrze dojscie i win czasami nie radzi sobie z nazwami) i uruchomcie taką komendę:
+# Po instalacji uruchomcie konsolę, przejdzcie pod katalog z projektem (ja trzymam na C, najprostrze dojscie i win czasami nie radzi sobie z nazwami) i uruchomcie taką komendę:
 
 ```bash
-    pacman -Syu
-    pacman -S mingw-w64-ucrt-x86_64-wxwidgets3.2-msw
+pacman -Syu
+pacman -S mingw-w64-ucrt-x86_64-wxwidgets3.2-msw
 ```
 
 ## Jesli nie macie kompilatora to 
 ```bash
     pacman -S mingw-w64-ucrt-x86_64-gcc
 ```
+
+## Jesli wysietlaja sie jakies dziwne błędy ale kompilacja przebiegła bez problemu (i jesli macie pythona zainstalowanego)
+
+```bash
+pip install compiledb
+```
+
+## a pozniej w terminalu MSYS 
+```bash
+/c/Python311/python.exe -m compiledb make
+```
+
+
 
 # 🛠️ MAKEFILE
 
