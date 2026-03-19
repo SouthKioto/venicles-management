@@ -76,6 +76,20 @@ Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Windows
 ### 1. Wymagania systemowe
 
     - zainstalujcie MSYS2 (bedziemy uzywac terminala MSYS2 MinGW 64-bit)
+    
+Po instalacji uruchomcie konsolę, przejdzcie pod katalog z projektem 
+(ja trzymam na C, najprostrze dojscie i win czasami nie radzi sobie z nazwami)
+i uruchomcie taką komendę:
+
+```bash
+    pacman -Syu
+    pacman -S mingw-w64-ucrt-x86_64-wxwidgets3.2-msw
+```
+
+Jesli nie macie kompilatora to 
+```bash
+    pacman -S mingw-w64-ucrt-x86_64-gcc
+```
 
 
 
