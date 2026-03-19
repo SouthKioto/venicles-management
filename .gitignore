@@ -1,8 +1,9 @@
-# plik gitignore ktory bedzie zapobirgal dodawaniu (przypadkowemu) plikow wykonywalnych, obiektowych, ect.
-
-*.exe
 *.o
-*.out
-Makefile
+*.exe
+main
+/build/
+
+.vscode/
+.idea/
 compile_commands.json
-.clangd/
+.DS_Store

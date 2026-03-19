@@ -41,33 +41,7 @@ g++ src/main.o src/controller/GreetingsController.o src/model/Greetings.o src/vi
 bear -- make clean main
 ```
 
-### 3. Mój makefile
-
-```makefile
-
-CXX = g++
-CXXFLAGS = -Wall -Wextra -std=c++17 -Iinclude $(shell wx-config --cxxflags)
-LDFLAGS = $(shell wx-config --libs)
-
-OBJ = src/main.o \
-      src/controller/GreetingsController.o \
-      src/model/Greetings.o \
-      src/view/MainView.o
-
-all: main
-
-main: $(OBJ)
-	$(CXX) $(OBJ) -o main $(LDFLAGS)
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-clean:
-	rm -f src/*.o src/controller/*.o src/model/*.o src/view/*.o main
-
-.PHONY: all clean
-
-```
+### ta komenda utworzy plik 'compile_commands.json' który usunie błędy
 
 ## 🛠️ Setup (Windows)
 
@@ -75,21 +49,53 @@ Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Windows
 
 ### 1. Wymagania systemowe
 
-    - zainstalujcie MSYS2 (bedziemy uzywac terminala MSYS2 MinGW 64-bit)
+zainstalujcie MSYS2 (bedziemy uzywac terminala MSYS2 MinGW 64-bit)
     
-Po instalacji uruchomcie konsolę, przejdzcie pod katalog z projektem 
-(ja trzymam na C, najprostrze dojscie i win czasami nie radzi sobie z nazwami)
-i uruchomcie taką komendę:
+## Po instalacji uruchomcie konsolę, przejdzcie pod katalog z projektem (ja trzymam na C, najprostrze dojscie i win czasami nie radzi sobie z nazwami) i uruchomcie taką komendę:
 
 ```bash
     pacman -Syu
     pacman -S mingw-w64-ucrt-x86_64-wxwidgets3.2-msw
 ```
 
-Jesli nie macie kompilatora to 
+## Jesli nie macie kompilatora to 
 ```bash
     pacman -S mingw-w64-ucrt-x86_64-gcc
 ```
 
+# 🛠️ MAKEFILE
+
+```makefile
+ifeq ($(OS),Windows_NT)
+    TARGET = main.exe
+    RM = del /s /q
+    FixPath = $(subst /,\,$1)
+else
+    TARGET = main
+    RM = rm -rf
+    FixPath = $1
+endif
+
+CXX = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -Iinclude $(shell wx-config --cxxflags)
+LDFLAGS = $(shell wx-config --libs)
+
+SRC = $(wildcard src/*.cpp) $(wildcard src/view/*.cpp) $(wildcard src/model/*.cpp) $(wildcard src/controller/*.cpp)
+OBJ = $(SRC:.cpp=.o)
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+clean:
+	$(RM) $(call FixPath, $(OBJ) $(TARGET))
+
+.PHONY: all clean
+
+```
 
 
