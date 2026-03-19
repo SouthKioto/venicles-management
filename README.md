@@ -1,22 +1,28 @@
-# Venicle Management System
+# 🚗 Vehicle Management System
 
-### Aplikacja do zarzadzania flota pojazdow
+### Aplikacja do zarządzania flotą pojazdów
+
+---
 
 ## 🛠️ Setup (Linux)
 
-Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Linux
+Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Linux.
 
 ### 1. Wymagania systemowe
+
 Zainstaluj kompilator C++, bibliotekę wxWidgets oraz narzędzie do generowania bazy kompilacji dla LSP:
 
 ```bash
 sudo pacman -Syu
-sudo pacman -S build-essential libwxgtk3.2-dev bear
+sudo pacman -S base-devel wxwidgets-gtk3 bear
 ```
 
-### 2. Kompilacja 
-<br>
-(to jest przykład kompilacji, dla 100 lub wiecej plików tak nie robimy)
+---
+
+### 2. Kompilacja
+
+> ⚠️ To jest przykład kompilacji — przy większych projektach używamy Makefile.
+
 
 ```bash
 # kompilacja model
@@ -35,46 +41,73 @@ g++ -Wall -Wextra -std=c++17 -Iinclude -I/usr/lib/wx/include/gtk3-unicode-3.2 -I
 g++ src/main.o src/controller/GreetingsController.o src/model/Greetings.o src/view/MainView.o -o main -lwx_gtk3u_xrc-3.2 -lwx_gtk3u_html-3.2 -lwx_gtk3u_qa-3.2 -lwx_gtk3u_core-3.2 -lwx_baseu_xml-3.2 -lwx_baseu_net-3.2 -lwx_baseu-3.2
 ```
 
-## Jesli wysietlaja sie jakies dziwne błędy ale kompilacja przebiegła bez problemu
+
+---
+
+### 🧠 Problemy z LSP (dziwne błędy w edytorze)
+
+Jeśli kompilacja działa, ale edytor pokazuje błędy:
 
 ```bash
 bear -- make clean main
 ```
 
-### ta komenda utworzy plik 'compile_commands.json' który usunie błędy
+To wygeneruje plik:
+
+```
+compile_commands.json
+```
+
+który naprawi działanie LSP (np. clangd).
+
+---
 
 ## 🛠️ Setup (Windows)
 
-Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Windows
+Instrukcja przygotowania środowiska i uruchomienia projektu na systemie Windows.
 
 ### 1. Wymagania systemowe
 
-zainstalujcie MSYS2 (bedziemy uzywac terminala MSYS2 MinGW 64-bit)
-    
-Po instalacji uruchomcie konsolę, przejdzcie pod katalog z projektem (ja trzymam na C, najprostrze dojscie i win czasami nie radzi sobie z nazwami) i uruchomcie taką komendę:
+Zainstaluj **MSYS2** i używaj terminala:
+
+```
+MSYS2 MinGW UCRT64 ( taki niebieski :) )
+```
+
+Następnie:
+
 ```bash
 pacman -Syu
 pacman -S mingw-w64-ucrt-x86_64-wxwidgets3.2-msw
 ```
 
-Jesli nie macie kompilatora to 
+Jeśli nie masz kompilatora:
+
 ```bash
-    pacman -S mingw-w64-ucrt-x86_64-gcc
+pacman -S mingw-w64-ucrt-x86_64-gcc
 ```
 
-Jesli wysietlaja sie jakies dziwne błędy ale kompilacja przebiegła bez problemu (i jesli macie pythona zainstalowanego)
+---
+
+### 🧠 Problemy z błędami (Windows)
+
+Zainstaluj:
+
 ```bash
 pip install compiledb
 ```
 
-a pozniej w terminalu MSYS 
+Następnie uruchom:
+
 ```bash
 /c/Python311/python.exe -m compiledb make
 ```
 
+To wygeneruje `compile_commands.json`.
 
+---
 
-## 🛠️ MAKEFILE
+## ⚙️ Makefile
 
 ```makefile
 ifeq ($(OS),Windows_NT)
@@ -91,7 +124,11 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -Iinclude $(shell wx-config --cxxflags)
 LDFLAGS = $(shell wx-config --libs)
 
-SRC = $(wildcard src/*.cpp) $(wildcard src/view/*.cpp) $(wildcard src/model/*.cpp) $(wildcard src/controller/*.cpp)
+SRC = $(wildcard src/*.cpp) \
+      $(wildcard src/view/*.cpp) \
+      $(wildcard src/model/*.cpp) \
+      $(wildcard src/controller/*.cpp)
+
 OBJ = $(SRC:.cpp=.o)
 
 all: $(TARGET)
@@ -103,10 +140,30 @@ $(TARGET): $(OBJ)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(call FixPath, $(OBJ) $(TARGET))
+	$(RM) $(call FixPath,$(OBJ) $(TARGET))
 
 .PHONY: all clean
-
 ```
 
+---
 
+## 🚀 Uruchomienie
+
+### Linux
+```bash
+make
+./main
+```
+
+### Windows (MSYS2)
+```bash
+make
+./main
+```
+
+lub
+
+```bash
+make
+./main.exe
+```
