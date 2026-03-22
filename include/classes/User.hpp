@@ -17,7 +17,7 @@ public:
 
   virtual ~User();
 
-  // INFO: settery
+  // info: settery
   void setName(std::string name);
 
   void setSurname(std::string surname);
@@ -28,7 +28,7 @@ public:
 
   void setAge(int age);
 
-  // INFO: gettery
+  // info: gettery
   std::string getName() const;
 
   std::string getSurname() const;
