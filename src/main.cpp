@@ -1,19 +1,29 @@
-#include "../include/controller/GreetingsController.hpp"
-#include "model/Greetings.hpp"
-#include "view/MainView.hpp"
+#include "../include/controller/LoginController.hpp"
+#include "../include/model/LoginModel.hpp"
+#include "../include/view/LoginView.hpp"
 #include <wx/wx.h>
 
-class MyApp : public wxApp {
+class VenicleManagement : public wxApp {
+private:
+  LoginController *_controller = nullptr;
+
 public:
-  virtual bool OnInit() {
-    Greetings *model = new Greetings();
-    MainView *view = new MainView();
+  virtual bool OnInit() override {
+    LoginModel *loginModel = new LoginModel();
+    LoginView *loginView = new LoginView();
 
-    new GreetingsController(model, view);
+    loginView->Show();
 
-    view->Show(true);
+    _controller = new LoginController(loginModel, loginView);
+
     return true;
+  }
+
+  virtual int OnExit() override {
+    if (_controller)
+      delete _controller;
+    return 0;
   }
 };
 
-wxIMPLEMENT_APP(MyApp);
+wxIMPLEMENT_APP(VenicleManagement);

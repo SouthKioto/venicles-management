@@ -4,7 +4,7 @@ FixPath = $1
 
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -Iinclude $(shell wx-config --cxxflags)
-LDFLAGS = $(shell wx-config --libs)
+LDFLAGS = $(shell wx-config --libs richtext,core,base)
 
 SRC = $(wildcard src/*.cpp) $(wildcard src/view/*.cpp) $(wildcard src/model/*.cpp) $(wildcard src/controller/*.cpp)
 OBJ = $(SRC:.cpp=.o)
