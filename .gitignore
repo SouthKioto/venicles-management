@@ -3,6 +3,10 @@
 main
 /build/
 
+*.log
+*.txt
+*.json
+
 .vscode/
 .idea/
 compile_commands.json
