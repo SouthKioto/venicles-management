@@ -6,6 +6,10 @@ main
 
 .cache
 
+*.log
+*.txt
+*.json
+
 .vscode/
 .idea/
 compile_commands.json
