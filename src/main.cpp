@@ -10,13 +10,13 @@ private:
 
 public:
   virtual bool OnInit() override {
-    Logger logger("mainlog.log");
+    Logger logger;
 
     LoginModel *loginModel = new LoginModel();
     LoginView *loginView = new LoginView();
 
     loginView->Show();
-    logger.log(INFO, "Start Aplikacji");
+    logger.log(LogLevel::Info, "Start Aplikacji");
 
     _controller = new LoginController(loginModel, loginView);
 

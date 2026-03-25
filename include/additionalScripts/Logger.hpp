@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 
-enum LogLevel { DEBUG, INFO, WARNING, ERROR, CRITICAL };
+enum class LogLevel { Debug, Info, Warning, Error, Critical };
 
 class Logger {
 private:
@@ -12,7 +12,7 @@ private:
   std::string levelToString(LogLevel level);
 
 public:
-  Logger(const std::string &filename);
+  Logger();
   ~Logger();
 
   void log(LogLevel level, const std::string &message);

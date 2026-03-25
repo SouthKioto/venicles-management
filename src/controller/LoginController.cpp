@@ -1,4 +1,5 @@
 #include "../include/controller/LoginController.hpp"
+#include "../../include/database/Database.hpp"
 #include "../include/classes/User.hpp"
 #include <iostream>
 
@@ -19,6 +20,9 @@ void LoginController::OnSubmitClicked(wxCommandEvent &event) {
   int age = 50;
 
   User *newUser = new User(name, surname, email, pass, age);
+
+  Database db("users.json");
+  db.writeInto(*newUser);
 
   _model->setUser(newUser);
 }

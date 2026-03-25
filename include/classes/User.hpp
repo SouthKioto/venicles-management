@@ -1,6 +1,7 @@
 #ifndef USER_HPP
 #define USER_HPP
 
+#include "../nlohmann/json.hpp"
 #include <iostream>
 
 class User {
@@ -38,6 +39,8 @@ public:
   std::string getPassword() const;
 
   int getAge() const;
+
+  NLOHMANN_DEFINE_TYPE_INTRUSIVE(User, name, surname, email, password, age);
 };
 
 #endif // !USER_HPP

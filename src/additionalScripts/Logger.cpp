@@ -6,8 +6,9 @@
 #include <iostream>
 #include <sstream>
 
-Logger::Logger(const std::string &filename) {
-  logFile.open(filename, std::ios::app);
+Logger::Logger() {
+  std::string path = "src/additionalScripts/log_dg.log";
+  logFile.open(path, std::ios::app);
   if (!logFile.is_open()) {
     std::cerr << "Error opening log file" << std::endl;
   }
@@ -21,19 +22,19 @@ Logger::~Logger() {
 
 std::string Logger::levelToString(LogLevel level) {
   switch (level) {
-  case WARNING:
+  case LogLevel::Warning:
     return "WARNING";
 
-  case DEBUG:
+  case LogLevel::Debug:
     return "DEBUG";
 
-  case INFO:
+  case LogLevel::Info:
     return "INFO";
 
-  case ERROR:
+  case LogLevel::Error:
     return "ERROR";
 
-  case CRITICAL:
+  case LogLevel::Critical:
     return "CRITICAL";
   }
 };

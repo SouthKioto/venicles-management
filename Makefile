@@ -6,7 +6,7 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -Iinclude $(shell wx-config --cxxflags)
 LDFLAGS = $(shell wx-config --libs richtext,core,base)
 
-SRC = $(wildcard src/*.cpp) $(wildcard src/view/*.cpp) $(wildcard src/model/*.cpp) $(wildcard src/controller/*.cpp) $(wildcard src/classes/*.cpp) $(wildcard src/additionalScripts/*.cpp)
+SRC = $(wildcard src/*.cpp) $(wildcard src/view/*.cpp) $(wildcard src/model/*.cpp) $(wildcard src/controller/*.cpp) $(wildcard src/classes/*.cpp) $(wildcard src/additionalScripts/*.cpp) $(wildcard src/database/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
 all: $(TARGET)
