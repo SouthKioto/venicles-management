@@ -16,7 +16,7 @@ public:
     LoginView *loginView = new LoginView();
 
     loginView->Show();
-    logger.log(LogLevel::Info, "Start Aplikacji");
+    logger.log(LogLevel::Info, "\nStart Aplikacji");
 
     _controller = new LoginController(loginModel, loginView);
 

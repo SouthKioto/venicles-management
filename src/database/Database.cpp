@@ -2,6 +2,6 @@
 
 Database::Database(std::string filename) : filename(filename) {
   this->filename = filename;
-};
+}
 
-Database::~Database() {};
+Database::~Database() {}
