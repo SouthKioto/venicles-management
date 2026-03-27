@@ -7,6 +7,10 @@
 #include <iostream>
 #include <vector>
 
+/**
+ * @file Database.hpp
+ * @brief Klasa do obsługi prostych operacji na plikach JSON.
+ */
 class Database {
 private:
   std::string filename;
@@ -18,6 +22,18 @@ public:
 
   ~Database();
 
+  /**
+   * @brief Funckja zapisujaca dane do pliku podanego w konstruktorze
+   *
+   * @tparam T Typ obiektu do zapisania (musi być serializowalny do JSON).
+   * @param obiekt Obiekt, który chcemy zapisać.
+   *
+   * @example
+   * Database db("users.json");
+   *
+   * User u{3, "Kuba", 22};
+   * db.writeInto(u);
+   */
   template <typename T> void writeInto(T &obiekt) {
     nlohmann::json serialize = obiekt;
 
@@ -33,6 +49,24 @@ public:
     }
   };
 
+  /**
+   * @brief Funckja pobierajca dane z pliku i konwertujaca go na typ T
+   *
+   * @param std::string sciezka/nazwa pliku
+   *
+   * @return obiekt podanej klasy
+   *
+   * @example
+   * Database db("users.json");
+   * std::string path = "src/database/users.json";
+   *
+   * std::vector<User> users = db.getFrom<std::vector<User>>(path);
+   *
+   * for (const auto& u : users) {
+   *     std::cout << u.name << std::endl;
+   * }
+   */
+
   template <typename T> T getFrom(std::string &sciezka) {
     std::ifstream plik(sciezka);
 
@@ -46,8 +80,31 @@ public:
     return deserialize.get<T>();
   }
 
+  /**
+   * @brief Funkcja aktualizujaca dane w json
+   *
+   * @param T nowy obiekt klasy
+   * @param int id elementu który chcemy aktualizowac
+   * @param std::string sciezka/nazwa pliku
+   *
+   * @return true/false
+   *
+   * @note ! klasa MUSI posiadać id !
+   *
+   * @example
+   * Database db("users.json");
+   * std::string path = "src/database/users.json";
+   *
+   * User updated{0, "Janek", 26}; // id zostanie nadpisane
+   *
+   * bool result = db.updateById(updated, 1, path);
+   *
+   * if (result) {
+   *     std::cout << "Zaktualizowano!" << std::endl;
+   * }
+   */
   template <typename T>
-  bool update(std::string &sciezka, int id, T &updatedData) {
+  bool updateById(T &updatedData, int id, std::string &sciezka) {
 
     std::ifstream plik(sciezka);
 
@@ -97,6 +154,68 @@ public:
 
     return true;
   };
+
+  /**
+   * @brief Struktura mapująca klucz JSON na getter klasy.
+   *
+   * @tparam T Typ klasy, do której należy getter.
+   * @tparam ReturnType Typ zwracany przez getter.
+   *
+   *  @example
+   * FieldMap<User, std::string> mapName{
+   *     &User::getName,
+   *     "name"
+   * };
+   */
+
+  // INFO: funckja wiazaca klucze json z getterami w podanej klasie
+  template <typename T, typename ReturnType> struct FieldMap {
+    ReturnType (T::*getter)() const;
+    std::string jsonKey;
+  };
+
+  /** @brief Sprawdza, czy w danych JSON istnieje wartość równa target
+   *        dla któregokolwiek z podanych kluczy.
+   *
+   * @tparam T Typ klasy powiązanej z FieldMap
+   * @tparam Value Typ wartości porównywanej z danymi w JSON.
+   * @tparam Maps Typy mapowań FieldMap (variadic template).
+   *
+   * @param jsonData Obiekt JSON, w którym wykonywane jest wyszukiwanie.
+   * @param target Wartość, której szukamy w JSON.
+   * @param maps Lista mapowań (FieldMap), określających które klucze sprawdzać.
+   *
+   * @return true jeśli którakolwiek wartość w JSON odpowiada target, false w
+   * przeciwnym przypadku.
+   *
+   * @example
+   * nlohmann::json userJson = {
+   *     {"id", 1},
+   *     {"name", "Jan"},
+   *     {"age", 25}
+   * };
+   *
+   * FieldMap<User, std::string> nameMap{&User::getName, "name"};
+   * FieldMap<User, int> ageMap{&User::getAge, "age"};
+   *
+   * bool exists = db.checkDataExist(
+   *     userJson,
+   *     std::string("Jan"),
+   *     nameMap,
+   *     ageMap
+   * );
+   *
+   * // exists == true
+   */
+
+  // INFO: funckja sprawdzająca
+  template <typename T, typename Value, typename... Maps>
+  bool checkDataExist(const nlohmann::json &jsonData, const Value &target,
+                      Maps... maps) {
+    return (
+        (jsonData.contains(maps.jsonKey) && jsonData[maps.jsonKey] == target) ||
+        ...);
+  }
 };
 
 #endif // !DATABASE_HPP
