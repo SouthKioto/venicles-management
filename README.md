@@ -15,8 +15,7 @@
 <h2>Kompilacja i uruchomienie</h2>
 
 <h3>Korzystamy z pliku Makefile:<h3>
-[Makefile](./Makefile)
-
+[CONTRIBUTING.md](Makefile)
 
 <h3>Kompilacja</h3>
 
