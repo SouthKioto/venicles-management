@@ -11,21 +11,28 @@ Router::~Router() {
   // TODO: przy destrukcji usuwanie wszystkich dodanych widokow (?)
 }
 
-bool Router::findRoute(const std::string &name) {
+// TODO: dodanie json-a z opcjami np: debug: on/off ect
+bool Router::findRoute(const std::string &name, bool isSilent) {
   auto search_elem = routes.find(name);
 
   if (search_elem != routes.end()) {
-    logger.log(LogLevel::Info, "Element " + name + " istnieje w routerze");
+    if (!isSilent) {
+      logger.log(LogLevel::Info, "Element " + name + " istnieje w routerze");
+    }
+
     return true;
   } else {
-    logger.log(LogLevel::Info, "Element " + name + " nie istnieje w routerze");
+    if (!isSilent) {
+      logger.log(LogLevel::Info,
+                 "Element " + name + " nie istnieje w routerze");
+    }
     return false;
   }
 }
 
 void Router::add(const std::string &name, wxWindow *window) {
 
-  if (!findRoute(name)) {
+  if (!findRoute(name, true)) {
     routes.insert({name, window});
     logger.log(LogLevel::Info, "Pomyslnie dodano element route: " + name);
   } else {
@@ -36,7 +43,7 @@ void Router::add(const std::string &name, wxWindow *window) {
 
 void Router::remove(std::string name) {
 
-  if (findRoute(name)) {
+  if (findRoute(name, true)) {
     routes.erase(name);
 
     logger.log(LogLevel::Info, "Pomyslnie usunieto route: " + name);
@@ -46,7 +53,7 @@ void Router::remove(std::string name) {
 }
 
 void Router::navigate(std::string name) {
-  if (!findRoute(name)) {
+  if (!findRoute(name, true)) {
     logger.log(LogLevel::Error,
                "Element " + name + " nie istnieje w routerze.");
     return;

@@ -53,7 +53,15 @@ public:
    */
   void showAllRoutes();
 
-  bool findRoute(const std::string &name);
+  /**
+   * @brief Funckja szukajaca routingow w pamieci routera
+   *
+   * @param std::string nazwa strony
+   *
+   * @param bool isSilent ustawienie wyłączenia loggowania (włączamy tylko dla
+   * Debug)
+   */
+  bool findRoute(const std::string &name, bool isSilent = false);
 };
 
 #endif // !ROUTER_HPP
