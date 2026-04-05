@@ -4,7 +4,6 @@
 #include "../additionalScripts/Logger.hpp"
 #include "../nlohmann/json.hpp"
 #include <fstream>
-#include <iostream>
 #include <vector>
 
 /**
