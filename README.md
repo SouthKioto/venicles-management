@@ -15,7 +15,7 @@
 <h2>Kompilacja i uruchomienie</h2>
 
 <h3>Korzystamy z pliku Makefile:<h3>
-(makefile)[https://github.com/SouthKioto/venicles-management/blob/readme/Makefile]
+[makefile](https://github.com/SouthKioto/venicles-management/blob/readme/Makefile)
 
 
 <h3>Kompilacja</h3>
