@@ -3,14 +3,18 @@
 #include <wx/richtext/richtextctrl.h>
 #include <wx/wx.h>
 
-class LoginView : public wxFrame {
+class Router;
+
+class LoginView : public wxPanel {
 private:
   wxTextCtrl *name;
   wxTextCtrl *surname;
+  Router *router;
 
 public:
   wxButton *submit;
-  LoginView();
+  wxButton *changePage;
+  LoginView(wxWindow *window, Router *router);
   virtual ~LoginView();
 
   wxString getNameValue() const { return name->GetValue(); }

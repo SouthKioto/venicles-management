@@ -5,10 +5,9 @@
 #include "../include/view/LoginView.hpp"
 #include <wx/event.h> // WARNING: bindowanie zdarzen (onclick ect)
 
+class Router;
+
 class LoginController {
-public:
-  LoginController(LoginModel *model, LoginView *view);
-  ~LoginController();
 
 private:
   LoginModel *_model;
@@ -16,6 +15,12 @@ private:
 
   // WARNING: callback, po wykonaniu przycisku
   void OnSubmitClicked(wxCommandEvent &event);
+  void OnChangePageClicked(wxCommandEvent &event);
+
+public:
+  Router *router;
+  LoginController(LoginModel *model, LoginView *view, Router *router);
+  ~LoginController();
 };
 
 #endif // !LOGIN_CONTROLLER_HPP

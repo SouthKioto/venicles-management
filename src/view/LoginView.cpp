@@ -2,7 +2,7 @@
 
 #include <wx/stattext.h>
 
-LoginView::LoginView() : wxFrame(NULL, wxID_ANY, "Panel Logowania") {
+LoginView::LoginView(wxWindow *window, Router *router) : wxPanel(window) {
 
   // WARNING: utworzenie głównego kontenera
   wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
@@ -34,6 +34,9 @@ LoginView::LoginView() : wxFrame(NULL, wxID_ANY, "Panel Logowania") {
 
   submit = new wxButton(this, wxID_ANY, "Zatwierdź");
   mainSizer->Add(submit, 0, wxALL | wxALIGN_CENTER_HORIZONTAL, 15);
+
+  changePage = new wxButton(this, wxID_ANY, "Zmien na main");
+  mainSizer->Add(changePage, 0, wxALL | wxALIGN_CENTER_HORIZONTAL, 15);
 
   // WARNING: dodanie układu do strony
   this->SetSizer(mainSizer);
