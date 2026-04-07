@@ -1,7 +1,7 @@
 #ifndef LOGIN_MODEL_HPP
 #define LOGIN_MODEL_HPP
 
-#include "./classes/User.hpp"
+#include "../classes/User.hpp"
 #include <string>
 
 /**

@@ -7,8 +7,6 @@ class Router;
 
 class LoginView : public wxPanel {
 private:
-  wxTextCtrl *name;
-  wxTextCtrl *surname;
   Router *router;
 
 public:
@@ -16,10 +14,6 @@ public:
   wxButton *changePage;
   LoginView(wxWindow *window, Router *router);
   virtual ~LoginView();
-
-  wxString getNameValue() const { return name->GetValue(); }
-
-  wxString getSurnameValue() const { return surname->GetValue(); }
 };
 
 #endif // !LOGIN_VIEW_HPP

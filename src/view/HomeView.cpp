@@ -1,5 +1,5 @@
 
-#include "../include/view/HomeView.hpp"
+#include "../../include/view/HomeView.hpp"
 
 HomeView::HomeView(wxWindow *window, Router *router) : wxPanel(window) {
   SetBackgroundColour(*wxRED);
@@ -16,6 +16,20 @@ HomeView::HomeView(wxWindow *window, Router *router) : wxPanel(window) {
 
   mainSizer->Add(titleRow, 0, wxEXPAND | wxALL, 5);
 
+  vehicleList = new wxListBox(this, wxID_ANY);
+  mainSizer->Add(vehicleList, 1, wxALL | wxEXPAND, 5);
+
   this->SetSizer(mainSizer);
   mainSizer->Fit(this);
+}
+
+HomeView::~HomeView() {}
+
+void HomeView::setVehicles(const std::vector<Venicle> &vehicles) {
+  vehicleList->Clear();
+  for (const Venicle &vehicle : vehicles) {
+    vehicleList->Append(wxString::Format("%s %s [%s] - %d",
+                                        vehicle.getMake(), vehicle.getModel(),
+                                        vehicle.getPlate(), vehicle.getYear()));
+  }
 }

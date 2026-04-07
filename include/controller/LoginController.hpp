@@ -1,8 +1,8 @@
 #ifndef LOGIN_CONTROLLER_HPP
 #define LOGIN_CONTROLLER_HPP
 
-#include "../include/model/LoginModel.hpp"
-#include "../include/view/LoginView.hpp"
+#include "../model/RegistrationModel.hpp"
+#include "../view/LoginView.hpp"
 #include <wx/event.h> // WARNING: bindowanie zdarzen (onclick ect)
 
 class Router;
@@ -10,7 +10,7 @@ class Router;
 class LoginController {
 
 private:
-  LoginModel *_model;
+  RegistrationModel *_model;
   LoginView *_view;
 
   // WARNING: callback, po wykonaniu przycisku
@@ -19,7 +19,7 @@ private:
 
 public:
   Router *router;
-  LoginController(LoginModel *model, LoginView *view, Router *router);
+  LoginController(RegistrationModel *model, LoginView *view, Router *router);
   ~LoginController();
 };
 
