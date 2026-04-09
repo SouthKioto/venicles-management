@@ -7,10 +7,13 @@
 #include "../include/view/HomeView.hpp"
 #include "../include/view/LoginView.hpp"
 
-MainView::MainView() : wxFrame(NULL, wxID_ANY, "Venicle Management App") {
+MainView::MainView(Logger *logger)
+    : wxFrame(NULL, wxID_ANY, "Venicle Management App") {
+
+  SetClientSize(wxSize(600, 400));
   wxPanel *container = new wxPanel(this);
 
-  router = new Router(container);
+  router = new Router(container, logger);
 
   // modele
   LoginModel *loginModel = new LoginModel();
