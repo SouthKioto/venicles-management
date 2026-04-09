@@ -1,5 +1,5 @@
-#ifndef DATABASE_HPP
-#define DATABASE_HPP
+#ifndef DATABASE_JSON_HPP
+#define DATABASE_JSON_HPP
 
 #include "../additionalScripts/Logger.hpp"
 #include "../nlohmann/json.hpp"
@@ -217,4 +217,4 @@ public:
   }
 };
 
-#endif // !DATABASE_HPP
+#endif // !DATABASE_JSON_HPP

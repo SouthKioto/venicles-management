@@ -71,7 +71,10 @@ void Router::navigate(std::string name) {
   routes[name]->Show();
 
   container->Layout();
+  container->Refresh();
+  container->Update();
   current = name;
+  logger.log(LogLevel::Debug, "Nawigacja do: " + name);
 }
 
 void Router::showAllRoutes() {

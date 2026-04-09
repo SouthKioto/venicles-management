@@ -3,12 +3,12 @@
 
 Logger log;
 
-Database::Database() {};
+DatabaseSqlite::DatabaseSqlite() {};
 
-Database::~Database() {};
+DatabaseSqlite::~DatabaseSqlite() {};
 
-void Database::createDatabase() {
-  char *nazwaDB = "database.db";
+void DatabaseSqlite::createDatabase() {
+  const char *nazwaDB = "database.db";
   error = sqlite3_open(nazwaDB, &db);
   if (error) {
     log.log(LogLevel::Critical, "Nie udało sie uworzyc bazy danych: " +

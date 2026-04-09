@@ -1,5 +1,5 @@
 #include "../include/controller/LoginController.hpp"
-#include "../../include/database/Database.hpp"
+#include "../../include/database/DatabaseJson.hpp"
 #include "../include/classes/Router.hpp"
 #include "../include/classes/User.hpp"
 #include "../include/view/MainView.hpp"
@@ -8,33 +8,44 @@
 LoginController::LoginController(LoginModel *model, LoginView *view,
                                  Router *router)
     : _model(model), _view(view), router(router) {
-  _view->submit->Bind(wxEVT_BUTTON, &LoginController::OnChangePageClicked,
+  _view->submit->Bind(wxEVT_BUTTON, &LoginController::OnSubmitClicked,
                       this);
 }
 
 LoginController::~LoginController() {}
 
-// INFO: zakomentowane w celach pozniejszego wykorzystania
-/*void LoginController::OnSubmitClicked(wxCommandEvent &event) {
-  // WARNING: pobranie prywantych zmiennych name i surname
-  wxString name = _view->getNameValue().ToStdString();
-  wxString surname = _view->getSurnameValue().ToStdString();
+void LoginController::OnSubmitClicked(wxCommandEvent &event) {
+  // Pobranie danych z pól formularza
+  wxString nameValue = _view->getNameValue();
+  wxString surnameValue = _view->getSurnameValue();
 
+  std::cout << "Submit clicked! Name: " << nameValue.ToStdString() << ", Surname: " << surnameValue.ToStdString() << std::endl;
+
+  // Prosta walidacja – sprawdź, czy pola nie są puste
+  if (nameValue.IsEmpty() || surnameValue.IsEmpty()) {
+    wxMessageBox("Wypełnij wszystkie pola!", "Błąd", wxOK | wxICON_ERROR);
+    return;
+  }
+
+  // Przykładowe dane (możesz dostosować)
   std::string email = "testowy@test.com";
   std::string pass = "123";
   int age = 50;
 
-  User *newUser = new User(name, surname, email, pass, age);
+  // Utworzenie nowego użytkownika
+  User *newUser = new User(nameValue.ToStdString(), surnameValue.ToStdString(), email, pass, age);
 
+  // Zapis do bazy danych
   Database db("users.json");
   db.writeInto(*newUser);
 
+  // Ustawienie użytkownika w modelu
   _model->setUser(newUser);
-}*/
 
-void LoginController::OnSubmitClicked(wxCommandEvent &event) {
-
-  // na razie nic
+  std::cout << "Navigating to home..." << std::endl;
+  // Nawigacja do widoku home
+  this->router->navigate("home");
+  std::cout << "Navigation done!" << std::endl;
 }
 
 void LoginController::OnChangePageClicked(wxCommandEvent &event) {

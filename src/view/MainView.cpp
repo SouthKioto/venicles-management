@@ -24,6 +24,8 @@ MainView::MainView() : wxFrame(NULL, wxID_ANY, "Venicle Management App") {
   new LoginController(loginModel, loginView, router);
   new HomeController(homeView, homeModel, router);
 
+  homeView->SetSize(1920, 1000);
+  homeView->SetMinSize(wxSize(1920, 1000));
   homeView->Hide();
 
   router->add("login", loginView);
@@ -34,6 +36,8 @@ MainView::MainView() : wxFrame(NULL, wxID_ANY, "Venicle Management App") {
   wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
   sizer->Add(container, 1, wxEXPAND);
   this->SetSizer(sizer);
+  this->Layout();
 
-  router->navigate("login");
+  this->SetSize(800, 600);
+  this->Refresh();
 }
