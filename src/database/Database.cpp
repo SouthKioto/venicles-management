@@ -3,23 +3,50 @@
 
 Database::Database(Logger *logger) : logger(logger) {};
 
-Database::~Database() {};
+Database::~Database() {
+  if (db) {
+    sqlite3_close(db);
+    db = nullptr;
+  }
+};
+
+void Database::checkConnection() {
+  if (db != nullptr) {
+    return;
+  }
+
+  if (sqlite3_open(nazwaDB, &db) != SQLITE_OK) {
+    logger->log(LogLevel::Critical, "Nie udalo sie otworzyc bazy: " +
+                                        std::string(sqlite3_errmsg(db)));
+    sqlite3_close(db);
+    db = nullptr;
+  }
+}
+
+std::string Database::errorLog(std::string &message,
+                               std::vector<std::string> &errors) {
+
+  int i = 1;
+  for (const std::string &error : errors) {
+    message += std::to_string(i) + ". " + error + "\n";
+    i++;
+  }
+
+  return message;
+}
 
 void Database::initDatabase() {
-  const char *nazwaDB = "database.db";
   char *messageError;
   bool success = true;
 
-  std::vector<std::string> tables;
-  std::vector<std::string> insertions;
-  std::vector<std::string> errors;
+  this->checkConnection();
 
-  tables = {"CREATE TABLE IF NOT EXISTS PERSON("
+  tables = {"CREATE TABLE IF NOT EXISTS USERS("
             "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
             "NAME           TEXT    NOT NULL, "
             "SURNAME        TEXT    NOT NULL, "
             "EMAIL          TEXT    NOT NULL, "
-            "AGE            INT     NOT NULL);",
+            "ISADMIN        BOOL     NOT NULL);",
 
             "CREATE TABLE IF NOT EXISTS VEHICLE("
             "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -28,22 +55,8 @@ void Database::initDatabase() {
             "YEAR           TEXT    NOT NULL, "
             "COLOR          TEXT    NOT NULL);"};
 
-  insertions = {"INSERT INTO PERSON (NAME, SURNAME, EMAIL, AGE) "
-                "VALUES('admin', 'admin', 'admin@example.com', 21)",
-
-                "INSERT INTO VEHICLE (BRAND, MODEL, YEAR, COLOR)"
-                "VALUES('Toyota', 'Yaris', '2005', 'Red')",
-
-                "INSERT INTO VEHICLES (BRAND, MODEL, YEAR, COLOR)"
-                "VALUES('Toyota', 'Yaris', '2005', 'Red')",
-
-                "INSERT INTO VEHICLES (BRAND, MODEL, YEAR, COLOR)"
-                "VALUES('Toyota', 'Yaris', '2005', 'Red')"};
-
-  if (sqlite3_open(nazwaDB, &db) != SQLITE_OK) {
-    logger->log(LogLevel::Critical, sqlite3_errmsg(db));
-    return;
-  }
+  insertions = {"INSERT INTO USERS (NAME, SURNAME, EMAIL, ISADMIN) "
+                "VALUES('admin', 'admin', 'admin@example.com', 'true')"};
 
   for (const std::string &sql : tables) {
     if (sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &messageError) !=
@@ -64,20 +77,29 @@ void Database::initDatabase() {
   }
 
   if (!success) {
-    // TODO: przerobić na globalną tablice w klasie
-    // do logowania kazdego bledu (INSERT, UPDATE, DELETE)
-    std::string messageErrors = "Baza nie utworzona. Bledy:\n";
-    int i = 1;
-    for (const std::string &error : errors) {
-      messageErrors += std::to_string(i) + ". " + error + "\n";
-      i++;
-    }
+    std::string mess = "Blad tworzenia bazy danych: ";
+
+    std::string messageErrors = Database::errorLog(mess, errors);
 
     logger->log(LogLevel::Critical, messageErrors);
   } else {
     logger->log(LogLevel::Info,
                 "Baza danych utworzona pod nazwa: " + (std::string)nazwaDB);
   }
+}
 
-  sqlite3_close(db);
+void Database::executeQuery(const std::string &query) {
+  this->checkConnection();
+  if (!db) {
+    return;
+  }
+
+  char *messageError = nullptr;
+  if (sqlite3_exec(db, query.c_str(), nullptr, nullptr, &messageError) !=
+      SQLITE_OK) {
+    errors.push_back(std::string(messageError));
+    sqlite3_free(messageError);
+  } else {
+    logger->log(LogLevel::Info, "Wykonano: " + query.substr(0, 6));
+  }
 }

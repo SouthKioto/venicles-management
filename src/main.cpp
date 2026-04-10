@@ -11,7 +11,7 @@ public:
     Database *database = new Database(logger);
     database->initDatabase();
 
-    MainView *mainView = new MainView(logger);
+    MainView *mainView = new MainView(logger, database);
     mainView->Show();
 
     return true;
