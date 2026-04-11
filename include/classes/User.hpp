@@ -40,7 +40,6 @@ public:
 
   int getAge() const;
 
-  NLOHMANN_DEFINE_TYPE_INTRUSIVE(User, name, surname, email, password, age);
 };
 
 #endif // !USER_HPP
