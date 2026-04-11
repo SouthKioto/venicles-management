@@ -5,10 +5,13 @@ main
 .catche
 
 .cache
+.clangd
 
 *.log
 *.txt
 *.json
+*.db
+*.sqlite
 
 .vscode/
 .idea/

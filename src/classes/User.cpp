@@ -1,11 +1,15 @@
 #include "../../include/classes/User.hpp"
 
-User::User(std::string name, std::string surname, std::string email,
-           std::string password, int age)
-    : name(name), surname(surname), email(email), password(password), age(age) {
-}
+User::User(int userId, std::string name, std::string surname, std::string email,
+           std::string password, bool isAdmin)
+    : userId(userId), name(name), surname(surname), email(email),
+      password(password), isAdmin(isAdmin) {}
+
+User::User() {};
 
 User::~User() {}
+
+void User::setId(int userId) { this->userId = userId; }
 
 void User::setName(std::string name) { this->name = name; }
 
@@ -15,7 +19,7 @@ void User::setEmail(std::string email) { this->email = email; }
 
 void User::setPassword(std::string password) { this->password = password; }
 
-void User::setAge(int age) { this->age = age; }
+void User::setAdminPermission(bool isAdmin) { this->isAdmin = isAdmin; }
 
 std::string User::getName() const { return name; }
 
@@ -25,4 +29,6 @@ std::string User::getEmail() const { return email; }
 
 std::string User::getPassword() const { return password; }
 
-int User::getAge() const { return age; }
+int User::getId() const { return userId; }
+
+bool User::getAdminPermission() const { return isAdmin; }

@@ -1,6 +1,8 @@
 #ifndef MAINVIEW_HPP
 #define MAINVIEW_HPP
 
+#include "../include/additionalScripts/Logger.hpp"
+#include "../include/database/Database.hpp"
 #include <wx/wx.h>
 class Router;
 
@@ -9,7 +11,9 @@ private:
   Router *router;
 
 public:
-  MainView();
+  Logger *logger;
+  Database *database;
+  MainView(Logger *logger, Database *database);
 };
 
 #endif // !MAINVIEW_HPP
