@@ -2,8 +2,10 @@
 #define DATABASE_HPP
 
 #include "../include/additionalScripts/Logger.hpp"
+#include <functional>
 #include <iostream>
 #include <sqlite3.h>
+#include <vector>
 
 class Database {
 private:
