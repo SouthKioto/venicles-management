@@ -17,16 +17,33 @@ HomeView::HomeView(wxWindow *window, Router *router) : wxPanel(window) {
 
   mainSizer->Add(titleRow, 0, wxEXPAND | wxALL, 5);
 
-  // Nowy panel (bez przycisku)
+  // Nowy panel z dwoma podpanelami: lewy i prawy
   wxPanel *newPanel = new wxPanel(this, wxID_ANY);
   newPanel->SetBackgroundColour(*wxBLUE);
-  wxBoxSizer *newPanelSizer = new wxBoxSizer(wxVERTICAL);
-  wxStaticText *newText = new wxStaticText(newPanel, wxID_ANY, "Nowy panel w home!");
-  newPanelSizer->Add(newText, 0, wxALL | wxALIGN_CENTER, 10);
+  wxBoxSizer *newPanelSizer = new wxBoxSizer(wxHORIZONTAL);
+
+  // Lewy panel
+  wxPanel *leftPanel = new wxPanel(newPanel, wxID_ANY);
+  leftPanel->SetBackgroundColour(*wxLIGHT_GREY);
+  wxBoxSizer *leftSizer = new wxBoxSizer(wxVERTICAL);
+  wxStaticText *newText = new wxStaticText(leftPanel, wxID_ANY, "Nowy panel w home!");
+  leftSizer->Add(newText, 0, wxALL | wxALIGN_CENTER, 10);
+  leftPanel->SetSizer(leftSizer);
+  leftPanel->SetBackgroundColour(*wxYELLOW);
+  wxButton *newCarButton = new wxButton(leftPanel, wxID_ANY, "New Car", wxDefaultPosition, wxSize(80, -1));
+
+  // Prawy panel
+  wxPanel *rightPanel = new wxPanel(newPanel, wxID_ANY);
+  rightPanel->SetBackgroundColour(*wxLIGHT_GREY);
+  rightPanel->SetBackgroundColour(*wxGREEN);
+  wxBoxSizer *rightSizer = new wxBoxSizer(wxVERTICAL);
+  rightSizer->Add(newCarButton, 0, wxALL | wxALIGN_CENTER, 10);
+  rightPanel->SetSizer(rightSizer);
+
+  newPanelSizer->Add(leftPanel, 1, wxEXPAND | wxALL, 5);
+  newPanelSizer->Add(rightPanel, 1, wxEXPAND | wxALL, 5);
   newPanel->SetSizer(newPanelSizer);
   mainSizer->Add(newPanel, 1, wxEXPAND | wxALL, 5);
-  wxButton *addCar = new wxButton(newPanel, wxID_ANY, "Add Car", wxDefaultPosition, wxSize(80, -1));
-  newPanelSizer->Add(addCar, 0, wxALL | wxALIGN_CENTER, 5);
 
   this->SetSizer(mainSizer);
   mainSizer->Fit(this);
