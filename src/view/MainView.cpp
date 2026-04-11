@@ -44,6 +44,7 @@ MainView::MainView(Logger *logger, Database *database)
 
   database->executeQuery(query);
 
+  // INFO: labda
   auto mapToUser = [](sqlite3_stmt *stmt) -> User {
     User user;
     user.setId(sqlite3_column_int(stmt, 0));
