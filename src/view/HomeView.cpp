@@ -25,6 +25,8 @@ HomeView::HomeView(wxWindow *window, Router *router) : wxPanel(window) {
   newPanelSizer->Add(newText, 0, wxALL | wxALIGN_CENTER, 10);
   newPanel->SetSizer(newPanelSizer);
   mainSizer->Add(newPanel, 1, wxEXPAND | wxALL, 5);
+  wxButton *addCar = new wxButton(newPanel, wxID_ANY, "Add Car", wxDefaultPosition, wxSize(80, -1));
+  newPanelSizer->Add(addCar, 0, wxALL | wxALIGN_CENTER, 5);
 
   this->SetSizer(mainSizer);
   mainSizer->Fit(this);
