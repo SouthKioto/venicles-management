@@ -22,8 +22,9 @@ public:
    * @param name Nowe imie usera
    */
   void setUserData(User *user);
-  bool checkUserExist(Database *database);
+  bool checkUserExist(User *user, Database *database);
   bool checkPassword(Database *database);
+  bool checkEmail(Database *database);
 };
 
 #endif // !LOGIN_MODEL_HPP
