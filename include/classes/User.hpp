@@ -6,19 +6,24 @@
 
 class User {
 private:
+  int userId;
   std::string name;
   std::string surname;
   std::string email;
   std::string password;
-  int age;
+  bool isAdmin;
 
 public:
-  User(std::string name, std::string surname, std::string email,
-       std::string password, int age);
+  User();
+
+  User(int userId, std::string name, std::string surname, std::string email,
+       std::string password, bool isAdmin);
 
   virtual ~User();
 
   // info: settery
+  void setId(int id);
+
   void setName(std::string name);
 
   void setSurname(std::string surname);
@@ -27,9 +32,11 @@ public:
 
   void setPassword(std::string password);
 
-  void setAge(int age);
+  void setAdminPermission(bool isAdmin);
 
   // info: gettery
+  int getId() const;
+
   std::string getName() const;
 
   std::string getSurname() const;
@@ -38,8 +45,7 @@ public:
 
   std::string getPassword() const;
 
-  int getAge() const;
-
+  bool getAdminPermission() const;
 };
 
 #endif // !USER_HPP

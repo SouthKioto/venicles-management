@@ -1,6 +1,7 @@
 #ifndef ROUTER_HPP
 #define ROUTER_HPP
 
+#include "../include/additionalScripts/Logger.hpp"
 #include <unordered_map>
 #include <wx/wx.h>
 
@@ -16,7 +17,8 @@ private:
   bool checkRouteExist(std::string name);
 
 public:
-  Router(wxWindow *container);
+  Logger *logger;
+  Router(wxWindow *container, Logger *logger);
   ~Router();
 
   /**

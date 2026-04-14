@@ -5,12 +5,16 @@ main
 .catche
 
 .cache
+.clangd
 
 *.log
 *.txt
 *.json
+*.db
+*.sqlite
 
 .vscode/
 .idea/
 compile_commands.json
 .DS_Store
+Makefile
