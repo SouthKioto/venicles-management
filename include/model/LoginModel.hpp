@@ -1,6 +1,7 @@
 #ifndef LOGIN_MODEL_HPP
 #define LOGIN_MODEL_HPP
 
+#include "../include/database/Database.hpp"
 #include "./classes/User.hpp"
 #include <string>
 
@@ -12,6 +13,8 @@ class LoginModel {
 
 private:
   User *user;
+  Database *conn;
+  Logger *logger;
 
 public:
   /**
@@ -20,7 +23,10 @@ public:
    * name
    * @param name Nowe imie usera
    */
-  void setUser(User *user);
+  void setUserData(User *user);
+  bool checkUserExist();
+  bool checkPassword();
+  bool checkEmail();
 };
 
 #endif // !LOGIN_MODEL_HPP
