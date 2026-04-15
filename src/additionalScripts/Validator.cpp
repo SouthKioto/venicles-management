@@ -1,20 +1,18 @@
 #include "../../include/additionalScripts/Validator.hpp"
 
-#include <algorithm>
-#include <cctype>
 
 Validator::Validator(Logger& loggerInstance) : logger(loggerInstance) {};
 
-
 bool Validator::validateEmail(std::string& email) {
-    // Warunek 1) -> czy mail zawiera znak '@' 
-    if (email.find('@') == std::string::npos) {
-    errors.push_back("Wrong email address.");
-    logger.log(LogLevel::Error, "Failed email validation: " + email);
-    return false;
-}
+    const std::regex emailPattern(R"(^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$)");
 
-logger.log(LogLevel::Info, "Succesfull email validation.");
+    if(!std::regex_match(email, emailPattern)) {
+        errors.push_back("Wrong email format.");
+        logger.log(LogLevel::Error, "Wrong email format of email: " + email);
+        return false;
+    };
+
+logger.log(LogLevel::Info, "Succesful email validation.");
 return true;
 
 }
@@ -48,6 +46,9 @@ bool Validator::validatePassword(std::string& password) {
         logger.log(LogLevel::Error, "Password must contain at least one uppercase letter.");
         return false;
     }
+
+    logger.log(LogLevel::Info, "Successful password validation.");
+    return true;
 }
 
 bool Validator::checkEmpty(std::string& value) {

@@ -1,9 +1,11 @@
 #ifndef VALIDATOR_HPP
 #define VALIDATOR_HPP
 
-#include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <cctype>
+#include <regex>
 #include "Logger.hpp"
 
 class Validator {
