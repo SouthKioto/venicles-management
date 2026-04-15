@@ -2,57 +2,90 @@
 #include "../include/classes/User.hpp"
 #include <vector>
 
-/*
-  std::string query =
-      "INSERT INTO USERS (NAME, SURNAME, EMAIL, ISADMIN) "
-      "VALUES('Jan', 'Kowalski', 'jKowalski@example.com', 'false')";
+LoginModel::LoginModel(Database *conn, Logger *logger)
+    : conn(conn), logger(logger) {
+  errors.clear();
+}
 
-  database->executeQuery(query);
+std::vector<std::string> LoginModel::getErrors() { return this->errors; }
+bool LoginModel::getLoginFlag() { return this->canLogIn; }
 
-  // INFO: labda
-  auto mapToUser = [](sqlite3_stmt *stmt) -> User {
-    User user;
-    user.setId(sqlite3_column_int(stmt, 0));
-    user.setName((const char *)sqlite3_column_text(stmt, 1));
-    user.setSurname((const char *)sqlite3_column_text(stmt, 2));
-    user.setEmail((const char *)sqlite3_column_text(stmt, 3));
-    user.setAdminPermission((bool)sqlite3_column_int(stmt, 4));
-    return user;
-  };
+LoginModel &LoginModel::setUserData(User *user) {
+  if (!user) {
+    logger->log(LogLevel::Critical, "User are null");
+    this->canLogIn = false;
+  }
+  this->user = user;
 
-  std::string sql = "SELECT * FROM USERS";
+  return *this;
+}
 
-  std::vector<User> people = database->fetch<User>(sql, mapToUser);
-*/
-
-void LoginModel::setUserData(User *user) { this->user = user; }
-
-bool LoginModel::checkUserExist() {
+LoginModel &LoginModel::checkUserExist() {
   std::vector<User> users;
+  errors.clear();
+
+  std::cout << user->getEmail() << std::endl;
 
   auto mapToUser = [](sqlite3_stmt *stmt) -> User {
     User user;
-    user.setId(sqlite3_column_int(stmt, 0));
-    user.setName((const char *)sqlite3_column_text(stmt, 1));
-    user.setSurname((const char *)sqlite3_column_text(stmt, 2));
-    user.setEmail((const char *)sqlite3_column_text(stmt, 3));
-    user.setAdminPermission((bool)sqlite3_column_int(stmt, 4));
+    user.setEmail((const char *)sqlite3_column_text(stmt, 0));
+
     return user;
   };
 
   std::string sql =
-      "SELECT * FROM PERSON WHERE EMAIL = '" + user->getEmail() + ';';
+      "SELECT email FROM users WHERE email = '" + user->getEmail() + "';";
 
   users = this->conn->fetch<User>(sql, mapToUser);
 
-  if (!users.empty()) {
-    logger->log(LogLevel::Error, "Uzytkownik o takim mailu juz istnieje");
-
-    return false;
+  for (User userdata : users) {
+    std::cout << userdata.getEmail() << std::endl;
   }
 
-  logger->log(LogLevel::Info, "Zalogowano");
-  return true;
+  if (users.empty()) {
+    logger->log(LogLevel::Error, "User doesnt exist");
+    errors.push_back("User doesnt exist. Please register");
+
+    this->canLogIn = false;
+  }
+  return *this;
 }
 
-bool LoginModel::checkPassword() {}
+LoginModel &LoginModel::checkPassword() {
+  std::vector<User> users;
+  errors.clear();
+  std::string passFromForm = user->getPassword();
+
+  auto mapToUser = [](sqlite3_stmt *stmt) -> User {
+    User user;
+    user.setPassword((const char *)sqlite3_column_text(stmt, 0));
+    return user;
+  };
+
+  std::string sql =
+      "SELECT password FROM users WHERE email = '" + user->getEmail() + "';";
+
+  users = this->conn->fetch<User>(sql, mapToUser);
+
+  if (users.empty()) {
+    logger->log(LogLevel::Error, "User doesnt exist");
+    errors.push_back("User doesnt exist");
+
+    this->canLogIn = false;
+    return *this;
+  }
+
+  if (passFromForm != users[0].getPassword()) {
+    logger->log(LogLevel::Error, "Passwords are not same");
+
+    errors.push_back("Passwords are not same");
+
+    this->canLogIn = false;
+
+    return *this;
+  }
+
+  logger->log(LogLevel::Error, "Password are correct");
+
+  return *this;
+};

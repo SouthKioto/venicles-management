@@ -20,7 +20,7 @@ MainView::MainView(Logger *logger, Database *database)
   router = new Router(container, logger);
 
   // modele
-  LoginModel *loginModel = new LoginModel();
+  LoginModel loginModel(database, logger);
   HomeModel *homeModel = new HomeModel();
 
   // widoki
@@ -28,7 +28,7 @@ MainView::MainView(Logger *logger, Database *database)
   HomeView *homeView = new HomeView(container, router);
 
   // kotrolery
-  new LoginController(loginModel, loginView, router);
+  new LoginController(&loginModel, loginView, router);
   new HomeController(homeView, homeModel, router);
 
   homeView->Hide();
