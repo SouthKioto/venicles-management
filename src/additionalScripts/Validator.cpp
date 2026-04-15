@@ -26,22 +26,14 @@ bool Validator::validatePassword(std::string& password) {
     }
 
     // Warunek 2) -> Hasło musi zawierać przynajmniej jedną cyfrę
-    bool flag = false;
-    for (int i = 0; i <= password.length() - 1; i++) {
-        if (isdigit(password[i])) {
-            flag = true;
-            break;
-        }
-    }
-
-    if (!flag) {
+    if (!any_of(password.begin(), password.end(), [](unsigned char c) { return isdigit(c); })) {
         errors.push_back("Password must contain at least one digit.");
         logger.log(LogLevel::Error, "Password must contain at least one digit.");
         return false;
     }
 
     // Warunek 3) -> Hasło musi zawierać przynajmniej jedną dużą literę
-    if (any_of(password.begin(), password.end(), [](unsigned char c) { return isupper(c); }) == false) {
+    if (!any_of(password.begin(), password.end(), [](unsigned char c) { return isupper(c); })) {
         errors.push_back("Password must contain at least one uppercase letter.");
         logger.log(LogLevel::Error, "Password must contain at least one uppercase letter.");
         return false;
