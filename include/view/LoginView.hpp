@@ -1,26 +1,26 @@
 #ifndef LOGIN_VIEW_HPP
 #define LOGIN_VIEW_HPP
-#include <wx/richtext/richtextctrl.h>
 #include <wx/wx.h>
 
 class Router;
 
 class LoginView : public wxPanel {
 private:
-  wxTextCtrl *name;
-  wxTextCtrl *surname;
+  wxTextCtrl *login;
+  wxTextCtrl *pass;
   Router *router;
 
 public:
   wxButton *submit;
+  wxButton *registerButton;
   wxButton *changePage;
 
   LoginView(wxWindow *window, Router *router);
   virtual ~LoginView();
 
-  wxString getNameValue() const { return name->GetValue(); }
+  wxString getLoginValue() const { return login->GetValue(); }
 
-  wxString getSurnameValue() const { return surname->GetValue(); }
+  wxString getPassValue() const { return pass->GetValue(); }
 };
 
 #endif // !LOGIN_VIEW_HPP
