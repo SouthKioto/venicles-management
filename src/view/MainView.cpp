@@ -7,6 +7,9 @@
 #include "../include/model/LoginModel.hpp"
 #include "../include/view/HomeView.hpp"
 #include "../include/view/LoginView.hpp"
+#include "../include/view/RegisterView.hpp"
+#include "../include/model/RegisterModel.hpp"
+#include "../include/controller/RegisterController.hpp"
 
 MainView::MainView(Logger *logger, Database *database)
     : wxFrame(NULL, wxID_ANY, "Venicle Management App") {
@@ -14,7 +17,7 @@ MainView::MainView(Logger *logger, Database *database)
   this->database = database;
   this->logger = logger;
 
-  SetClientSize(wxSize(600, 400));
+  this->SetSize(800, 600);
   wxPanel *container = new wxPanel(this);
 
   router = new Router(container, logger);
@@ -22,19 +25,24 @@ MainView::MainView(Logger *logger, Database *database)
   // modele
   LoginModel *loginModel = new LoginModel();
   HomeModel *homeModel = new HomeModel();
+  RegisterModel *registerModel = new RegisterModel();
 
   // widoki
   LoginView *loginView = new LoginView(container, router);
   HomeView *homeView = new HomeView(container, router);
+  RegisterView *registerView = new RegisterView(container, router);
 
   // kotrolery
   new LoginController(loginModel, loginView, router);
   new HomeController(homeView, homeModel, router);
+  new RegisterController(registerModel, registerView, router);
 
   homeView->Hide();
+  registerView->Hide();
 
   router->add("login", loginView);
   router->add("home", homeView);
+  router->add("register", registerView);
 
   router->navigate("login");
 
@@ -62,6 +70,8 @@ MainView::MainView(Logger *logger, Database *database)
   wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
   sizer->Add(container, 1, wxEXPAND);
   this->SetSizer(sizer);
+  this->Layout();
+  this->Refresh();
 
   router->navigate("login");
 }
