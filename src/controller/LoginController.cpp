@@ -8,35 +8,38 @@
 LoginController::LoginController(LoginModel *model, LoginView *view,
                                  Router *router)
     : _model(model), _view(view), router(router) {
-  _view->submit->Bind(wxEVT_BUTTON, &LoginController::OnChangePageClicked,
-                      this);
+
+  _view->changePage->Bind(wxEVT_BUTTON, &LoginController::OnChangePageClicked,
+                          this);
+
+  _view->submit->Bind(wxEVT_BUTTON, &LoginController::OnSubmitClicked, this);
 }
 
 LoginController::~LoginController() {}
 
-// INFO: zakomentowane w celach pozniejszego wykorzystania
-/*void LoginController::OnSubmitClicked(wxCommandEvent &event) {
-  // WARNING: pobranie prywantych zmiennych name i surname
-  wxString name = _view->getNameValue().ToStdString();
-  wxString surname = _view->getSurnameValue().ToStdString();
-
-  std::string email = "testowy@test.com";
-  std::string pass = "123";
-  int age = 50;
-
-  User *newUser = new User(name, surname, email, pass, age);
-
-  Database db("users.json");
-  db.writeInto(*newUser);
-
-  _model->setUser(newUser);
-}*/
-
 void LoginController::OnSubmitClicked(wxCommandEvent &event) {
+  std::vector<std::string> errors;
+  errors.clear();
 
-  // na razie nic
+  // INFO: dane trestowe bede zmienial jak dostane pelny formularz z widoku
+  User user("Jan", "Kowalski", "jkowalski@example.com", "123");
+
+  _model->setUserData(&user).checkPassword();
+
+  errors = _model->getErrors();
+
+  // WARNING:
+  // if(!errors.empty() {
+  //  przekazanie do widoku errorow poprzez
+  //  _view->setErrors(errors)
+  // }
+
+  if (errors.empty() && _model->getLoginFlag()) {
+    // zmiana widoku
+    router->navigate("home");
+  }
 }
 
 void LoginController::OnChangePageClicked(wxCommandEvent &event) {
-  this->router->navigate("home");
+  // this->router->navigate("home");
 }

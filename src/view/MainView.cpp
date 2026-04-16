@@ -20,44 +20,23 @@ MainView::MainView(Logger *logger, Database *database)
   router = new Router(container, logger);
 
   // modele
-  LoginModel *loginModel = new LoginModel();
-  HomeModel *homeModel = new HomeModel();
+  LoginModel loginModel(database, logger);
+  HomeModel homeModel;
 
   // widoki
-  LoginView *loginView = new LoginView(container, router);
-  HomeView *homeView = new HomeView(container, router);
+  LoginView loginView(container, router);
+  HomeView homeView(container, router);
 
   // kotrolery
-  new LoginController(loginModel, loginView, router);
-  new HomeController(homeView, homeModel, router);
+  new LoginController(&loginModel, &loginView, router);
+  new HomeController(&homeView, &homeModel, router);
 
-  homeView->Hide();
+  homeView.Hide();
 
-  router->add("login", loginView);
-  router->add("home", homeView);
+  router->add("login", &loginView);
+  router->add("home", &homeView);
 
   router->navigate("login");
-
-  std::string query =
-      "INSERT INTO USERS (NAME, SURNAME, EMAIL, ISADMIN) "
-      "VALUES('Jan', 'Kowalski', 'jKowalski@example.com', 'false')";
-
-  database->executeQuery(query);
-
-  // INFO: labda
-  auto mapToUser = [](sqlite3_stmt *stmt) -> User {
-    User user;
-    user.setId(sqlite3_column_int(stmt, 0));
-    user.setName((const char *)sqlite3_column_text(stmt, 1));
-    user.setSurname((const char *)sqlite3_column_text(stmt, 2));
-    user.setEmail((const char *)sqlite3_column_text(stmt, 3));
-    user.setAdminPermission((bool)sqlite3_column_int(stmt, 4));
-    return user;
-  };
-
-  std::string sql = "SELECT * FROM USERS";
-
-  std::vector<User> people = database->fetch<User>(sql, mapToUser);
 
   wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
   sizer->Add(container, 1, wxEXPAND);

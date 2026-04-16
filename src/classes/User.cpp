@@ -5,6 +5,10 @@ User::User(int userId, std::string name, std::string surname, std::string email,
     : userId(userId), name(name), surname(surname), email(email),
       password(password), isAdmin(isAdmin) {}
 
+User::User(std::string name, std::string surname, std::string email,
+           std::string password)
+    : name(name), surname(surname), email(email), password(password) {}
+
 User::User() {};
 
 User::~User() {}

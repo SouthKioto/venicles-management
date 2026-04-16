@@ -41,22 +41,23 @@ void Database::initDatabase() {
 
   this->checkConnection();
 
-  tables = {"CREATE TABLE IF NOT EXISTS USERS("
-            "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "NAME           TEXT    NOT NULL, "
-            "SURNAME        TEXT    NOT NULL, "
-            "EMAIL          TEXT    NOT NULL, "
-            "ISADMIN        BOOL     NOT NULL);",
+  tables = {"CREATE TABLE IF NOT EXISTS users("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "name           TEXT    NOT NULL, "
+            "surname        TEXT    NOT NULL, "
+            "email          TEXT    NOT NULL, "
+            "password       TEXT    NOT NULL, "
+            "isAdmin        BOOL     NOT NULL);",
 
-            "CREATE TABLE IF NOT EXISTS VEHICLE("
-            "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-            "BRAND          TEXT    NOT NULL, "
-            "MODEL          TEXT    NOT NULL, "
-            "YEAR           TEXT    NOT NULL, "
-            "COLOR          TEXT    NOT NULL);"};
+            "CREATE TABLE IF NOT EXISTS vehicle("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "brand          TEXT    NOT NULL, "
+            "model          TEXT    NOT NULL, "
+            "year           TEXT    NOT NULL, "
+            "color          TEXT    NOT NULL);"};
 
-  insertions = {"INSERT INTO USERS (NAME, SURNAME, EMAIL, ISADMIN) "
-                "VALUES('admin', 'admin', 'admin@example.com', 'true')"};
+  insertions = {"INSERT INTO users (name, surname, email, password, isAdmin) "
+                "VALUES('admin', 'admin', 'admin@example.com', '123', 'true')"};
 
   for (const std::string &sql : tables) {
     if (sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &messageError) !=

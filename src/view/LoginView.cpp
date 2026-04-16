@@ -32,7 +32,7 @@ LoginView::LoginView(wxWindow *window, Router *router) : wxPanel(window) {
 
   mainSizer->Add(surnameRow, 0, wxEXPAND | wxALL, 5);
 
-  submit = new wxButton(this, wxID_ANY, "Zatwierdź");
+  submit = new wxButton(this, wxID_ANY, "Zatwierdz");
   mainSizer->Add(submit, 0, wxALL | wxALIGN_CENTER_HORIZONTAL, 15);
 
   changePage = new wxButton(this, wxID_ANY, "Zmien na main");
