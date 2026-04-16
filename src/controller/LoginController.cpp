@@ -20,6 +20,8 @@ LoginController::~LoginController() {}
 void LoginController::OnSubmitClicked(wxCommandEvent &event) {
   std::vector<std::string> errors;
   errors.clear();
+
+  // INFO: dane trestowe bede zmienial jak dostane pelny formularz z widoku
   User user("Jan", "Kowalski", "jkowalski@example.com", "123");
 
   _model->setUserData(&user).checkPassword();
