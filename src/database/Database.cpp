@@ -41,6 +41,7 @@ void Database::initDatabase() {
 
   this->checkConnection();
 
+  // INFO: default tables on database init
   tables = {"CREATE TABLE IF NOT EXISTS users("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             "name           TEXT    NOT NULL, "
@@ -54,10 +55,25 @@ void Database::initDatabase() {
             "brand          TEXT    NOT NULL, "
             "model          TEXT    NOT NULL, "
             "year           TEXT    NOT NULL, "
-            "color          TEXT    NOT NULL);"};
+            "color          TEXT    NOT NULL);",
 
-  insertions = {"INSERT INTO users (name, surname, email, password, isAdmin) "
-                "VALUES('admin', 'admin', 'admin@example.com', '123', 'true')"};
+            "CREATE TABLE IF NOT EXISTS userVehicle("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "idUser         INTEGER    NOT NULL, "
+            "idVehicle      TEXT       NOT NULL, "
+            "date           TEXT       NOT NULL);"};
+
+  // INFO: default isertions on database init
+  insertions = {
+      "INSERT INTO users (name, surname, email, password, isAdmin) "
+      "VALUES('admin', 'admin', 'admin@example.com', '123', 'true');",
+
+      "INSERT INTO vehicle (brand, model, year, color) "
+      "VALUES('Toyota', 'Yaris', '2006', 'RED');",
+
+      "INSERT INTO userVehicle (idUser, idVehicle, date) "
+      "VALUES('0', '0', '00-00-0000');",
+  };
 
   for (const std::string &sql : tables) {
     if (sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &messageError) !=

@@ -20,21 +20,21 @@ MainView::MainView(Logger *logger, Database *database)
   router = new Router(container, logger);
 
   // modele
-  LoginModel loginModel(database, logger);
-  HomeModel homeModel;
+  LoginModel *loginModel = new LoginModel(database, logger);
+  HomeModel *homeModel = new HomeModel();
 
   // widoki
-  LoginView loginView(container, router);
-  HomeView homeView(container, router);
+  LoginView *loginView = new LoginView(container, router);
+  HomeView *homeView = new HomeView(container, router);
 
   // kotrolery
-  new LoginController(&loginModel, &loginView, router);
-  new HomeController(&homeView, &homeModel, router);
+  new LoginController(loginModel, loginView, router);
+  new HomeController(homeView, homeModel, router);
 
-  homeView.Hide();
+  homeView->Hide();
 
-  router->add("login", &loginView);
-  router->add("home", &homeView);
+  router->add("login", loginView);
+  router->add("home", homeView);
 
   router->navigate("login");
 
