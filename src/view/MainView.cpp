@@ -48,6 +48,7 @@ MainView::MainView(Logger *logger, Database *database)
 
   wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
   sizer->Add(container, 1, wxEXPAND);
+
   this->SetSizer(sizer);
   this->Layout();
   this->Refresh();
