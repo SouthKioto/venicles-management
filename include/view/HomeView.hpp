@@ -11,6 +11,7 @@ private:
 
 public:
   wxButton *changePage;
+  wxButton *addCar;
 
   HomeView(wxWindow *window, Router *router);
 
