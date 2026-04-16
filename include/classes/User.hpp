@@ -1,7 +1,6 @@
 #ifndef USER_HPP
 #define USER_HPP
 
-#include "../nlohmann/json.hpp"
 #include <iostream>
 
 class User {
@@ -15,6 +14,9 @@ private:
 
 public:
   User();
+
+  User(std::string name, std::string surname, std::string email,
+       std::string password);
 
   User(int userId, std::string name, std::string surname, std::string email,
        std::string password, bool isAdmin);

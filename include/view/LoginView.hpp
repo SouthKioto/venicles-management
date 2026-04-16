@@ -13,6 +13,8 @@ private:
 public:
   wxButton *submit;
   wxButton *registerButton;
+  wxButton *changePage;
+
   LoginView(wxWindow *window, Router *router);
   virtual ~LoginView();
 

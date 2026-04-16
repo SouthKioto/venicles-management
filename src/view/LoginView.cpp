@@ -5,7 +5,7 @@
 #include <wx/valtext.h>
 
 LoginView::LoginView(wxWindow *window, Router *router)
-  : wxPanel(window), router(router) {
+    : wxPanel(window), router(router) {
 
   // WARNING: utworzenie głównego kontenera
   wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
