@@ -17,14 +17,15 @@ private:
   bool isAdmin = false;
   std::vector<Vehicle *> userVehicles;
 
+  bool checkAdmin();
+
 public:
   UserPageModel(User *user, Router *router, Database *database, Logger *logger);
   ~UserPageModel();
 
-  void getUserData();
-  void checkAdmin();
-  void showAdminSettings();
-  void getUserVehicles();
+  User *getUserData();
+  bool showAdminSettings();
+  std::vector<Vehicle> getUserVehicles();
 };
 
 #endif // !USER_PAGE_MODEL_HPP

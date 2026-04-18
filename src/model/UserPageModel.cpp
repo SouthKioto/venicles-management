@@ -4,33 +4,47 @@ UserPageModel::UserPageModel(User *user, Router *router, Database *database,
                              Logger *logger)
     : user(user), router(router), database(database), logger(logger) {}
 
-void UserPageModel::checkAdmin() {
+User *UserPageModel::getUserData() { return this->user; }
 
+bool UserPageModel::checkAdmin() {
   // INFO: inaczej sprawdzac isAdmin u usera
+  this->isAdmin = user->getAdminPermission();
+  return this->isAdmin;
+}
 
-  this->isAdmin = false;
+bool UserPageModel::showAdminSettings() {
+  if (!user->getAdminPermission()) {
+    logger->log(LogLevel::Info, "No access");
+    return false;
+  }
 
-  auto mapToUser = [](sqlite3_stmt *stmt) -> User {
-    User user;
-    user.setAdminPermission((bool)sqlite3_column_text(stmt, 0));
+  logger->log(LogLevel::Info,
+              "User " + user->getEmail() + " jest administratorem");
+  return true;
+}
 
-    return user;
+std::vector<Vehicle> UserPageModel::getUserVehicles() {
+  std::vector<Vehicle> vehicles;
+
+  std::string userId = std::to_string(user->getId());
+
+  auto mapToVehicle = [](sqlite3_stmt *stmt) -> Vehicle {
+    Vehicle vehicle;
+    // vehicle.setEmail((const char *)sqlite3_column_text(stmt, 0));
+
+    return vehicle;
   };
 
+  // WARNING: NIE RUSZAĆ
   std::string sql =
-      "SELECT isAdmin FROM users WHERE email=" + this->user->getEmail() + ";";
+      "SELECT vehicle.id, vehicle.brand, vehicle.model, vehicle.year, "
+      "vehicle.color FROM userVehicle"
+      "JOIN users ON userVehicle.idUser = users.id"
+      "JOIN vehicle ON userVehicle.idVehicle = vehicle.id"
+      "WHERE users.id = " +
+      userId + ";";
 
-  this->database->fetch<User>(sql, mapToUser);
+  vehicles = database->fetch<Vehicle>(sql, mapToVehicle);
+
+  return vehicles;
 }
-
-void UserPageModel::showAdminSettings() {
-  if (this->isAdmin) {
-    std::cout << "Ustawienia administratorskie wlaczone flaga" << std::endl;
-  } else {
-    this->logger->log(LogLevel::Info, "No access");
-  }
-}
-
-void UserPageModel::getUserData() {}
-
-void UserPageModel::getUserVehicles() {}
