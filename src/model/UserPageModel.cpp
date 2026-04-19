@@ -30,7 +30,11 @@ std::vector<Vehicle> UserPageModel::getUserVehicles() {
 
   auto mapToVehicle = [](sqlite3_stmt *stmt) -> Vehicle {
     Vehicle vehicle;
-    // vehicle.setEmail((const char *)sqlite3_column_text(stmt, 0));
+    vehicle.setId((const int)sqlite3_column_int(stmt, 0));
+    vehicle.setBrand((const char *)sqlite3_column_text(stmt, 1));
+    vehicle.setModel((const char *)sqlite3_column_text(stmt, 2));
+    vehicle.setYear((const char *)sqlite3_column_text(stmt, 3));
+    vehicle.setColor((const char *)sqlite3_column_text(stmt, 4));
 
     return vehicle;
   };
@@ -45,6 +49,10 @@ std::vector<Vehicle> UserPageModel::getUserVehicles() {
       userId + ";";
 
   vehicles = database->fetch<Vehicle>(sql, mapToVehicle);
+
+  if (vehicles.empty()) {
+    logger->log(LogLevel::Warning, "Dane nie zostały pobrane");
+  }
 
   return vehicles;
 }

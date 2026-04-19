@@ -1,7 +1,7 @@
 #include "../../include/classes/Vehicle.hpp"
 
 // Konstruktor
-Vehicle::Vehicle(std::string make, std::string model, int year,
+Vehicle::Vehicle(std::string make, std::string model, std::string year,
                  std::string color, std::string licensePlate, std::string vin,
                  User owner)
     : make(make), model(model), year(year), color(color),
@@ -15,11 +15,9 @@ Vehicle::~Vehicle() {}
 
 void Vehicle::setId(int id) { this->id = id; };
 
-void Vehicle::setMake(std::string make) { this->make = make; }
-
 void Vehicle::setModel(std::string model) { this->model = model; }
 
-void Vehicle::setYear(int year) { this->year = year; }
+void Vehicle::setYear(std::string year) { this->year = year; }
 
 void Vehicle::setColor(std::string color) { this->color = color; }
 
@@ -38,7 +36,7 @@ std::string Vehicle::getMake() const { return make; }
 
 std::string Vehicle::getModel() const { return model; }
 
-int Vehicle::getYear() const { return year; }
+std::string Vehicle::getYear() const { return year; }
 
 std::string Vehicle::getColor() const { return color; }
 

@@ -9,15 +9,16 @@ private:
   int id;
   std::string make;
   std::string model;
-  int year;
+  std::string year;
   std::string color;
   std::string licensePlate;
   std::string vin;
-  User owner; // Obiekt klasy User zamiast stringa
+  User owner;
 
 public:
-  Vehicle(std::string make, std::string model, int year, std::string color,
-          std::string licensePlate, std::string vin, User owner);
+  Vehicle(std::string make, std::string model, std::string year,
+          std::string color, std::string licensePlate, std::string vin,
+          User owner);
 
   Vehicle();
 
@@ -26,8 +27,9 @@ public:
   // info: settery
   void setId(int id);
   void setMake(std::string make);
+  void setBrand(std::string brand);
   void setModel(std::string model);
-  void setYear(int year);
+  void setYear(std::string year);
   void setColor(std::string color);
   void setLicensePlate(std::string licensePlate);
   void setVin(std::string vin);
@@ -36,8 +38,9 @@ public:
   // info: gettery
   int getId() const;
   std::string getMake() const;
+  std::string getBrand() const;
   std::string getModel() const;
-  int getYear() const;
+  std::string getYear() const;
   std::string getColor() const;
   std::string getLicensePlate() const;
   std::string getVin() const;
