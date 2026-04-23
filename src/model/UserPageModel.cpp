@@ -53,5 +53,9 @@ std::vector<Vehicle> UserPageModel::getUserVehicles() {
     logger->log(LogLevel::Warning, "Dane nie zostały pobrane");
   }
 
+  for (Vehicle vehicle : vehicles) {
+    std::cout << vehicle.getModel() << std::endl;
+  }
+
   return vehicles;
 }

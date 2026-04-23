@@ -63,10 +63,10 @@ void Database::initDatabase() {
             "idVehicle      INTEGER    NOT NULL, "
             "date           TEXT       NOT NULL);",
 
-            "CREATE TABLE IF NOT EXISTS setting("
+            "CREATE TABLE IF NOT EXISTS settings("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             "settingName    TEXT       NOT NULL, "
-            "value          BOOL       NOT NULL, "};
+            "value          INTEGER    NOT NULL);"};
 
   // INFO: default isertions on database init
   insertions = {
@@ -80,10 +80,10 @@ void Database::initDatabase() {
       "VALUES('Toyota', 'Yaris', '2006', 'RED');",
 
       "INSERT INTO userVehicle (idUser, idVehicle, date) "
-      "VALUES('1', '1', '00-00-0000');",
+      "VALUES(1, 1, '00-00-0000');",
 
-      "INSERT INTO settings (settingName, idVehicle) "
-      "VALUES('noweUstawienie', '0');",
+      "INSERT INTO settings (settingName, value) "
+      "VALUES('noweUstawienie', 0);",
   };
 
   for (const std::string &sql : tables) {

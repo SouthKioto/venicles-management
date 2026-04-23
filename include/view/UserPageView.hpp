@@ -3,10 +3,9 @@
 
 #include <wx/wx.h>
 
-class UserPageView : public wxPanel() {
+class UserPageView : public wxPanel {
 private:
 public:
-  UserPageView();
+  UserPageView(wxWindow *window);
 };
-
 #endif // !USER_PAGE_VIEW_HPP
