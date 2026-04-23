@@ -7,7 +7,6 @@ UserPageModel::UserPageModel(User *user, Router *router, Database *database,
 User *UserPageModel::getUserData() { return this->user; }
 
 bool UserPageModel::checkAdmin() {
-  // INFO: inaczej sprawdzac isAdmin u usera
   this->isAdmin = user->getAdminPermission();
   return this->isAdmin;
 }
