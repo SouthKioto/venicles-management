@@ -7,29 +7,28 @@ LoginModel::LoginModel(Database *conn, Logger *logger)
   errors.clear();
 }
 
-std::vector<std::string> LoginModel::getErrors() { return this->errors; }
+std::vector<std::string> LoginModel::getErrors() {
+  std::vector<std::string> tmpErr = this->errors;
+  this->errors.clear();
+  return tmpErr;
+}
 
-std::vector<User> LoginModel::returnUserData(const std::string &email) {
-  std::vector<User> user;
-
+std::optional<User> LoginModel::returnUserData(const std::string &email) {
   auto mapToUser = [](sqlite3_stmt *stmt) -> User {
     User user;
     user.setEmail((const char *)sqlite3_column_text(stmt, 0));
-
     return user;
   };
-
   std::string sql =
-      "SELECT email FROM users WHERE email = '" + email + "'LIMIT 1;";
+      "SELECT email FROM users WHERE email = '" + email + "' LIMIT 1;";
 
-  user = this->conn->fetch<User>(sql, mapToUser);
+  std::vector<User> users = this->conn->fetch<User>(sql, mapToUser);
 
-  if (user.empty()) {
+  if (users.empty()) {
     logger->log(LogLevel::Critical, "User are empty");
-    return {};
+    return std::nullopt;
   }
-
-  return user;
+  return users[0];
 }
 
 bool LoginModel::checkUserExist(const std::string &email) {

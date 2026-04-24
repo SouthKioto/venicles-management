@@ -13,12 +13,14 @@ private:
   std::vector<std::string> errors;
 
 public:
-  wxButton *submit;
+  wxButton *logInBtn;
+  wxButton *registerBtn;
+  wxBoxSizer *errorRow;
 
   LoginView(wxWindow *window, Router *router);
   virtual ~LoginView();
 
-  void setErrors(std::vector<std::string> &errors);
+  void setErrors(const std::vector<std::string> &errors);
 
   std::vector<std::string> getErrors() const;
 

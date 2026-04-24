@@ -68,6 +68,9 @@ void Database::initDatabase() {
       "INSERT INTO users (name, surname, email, password, isAdmin) "
       "VALUES('admin', 'admin', 'admin@example.com', '123', 'true');",
 
+      "INSERT INTO users (name, surname, email, password, isAdmin) "
+      "VALUES('Jan', 'Kowalski', 'JanK@example.com', '321', 'false');",
+
       "INSERT INTO vehicle (brand, model, year, color) "
       "VALUES('Toyota', 'Yaris', '2006', 'RED');",
 

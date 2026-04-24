@@ -4,6 +4,7 @@
 #include "../include/additionalScripts/Logger.hpp"
 #include "../include/database/Database.hpp"
 #include "./classes/User.hpp"
+#include <optional>
 #include <string>
 
 /**
@@ -23,7 +24,7 @@ public:
 
   bool getLoginFlag();
 
-  std::vector<User> returnUserData(const std::string &email);
+  std::optional<User> returnUserData(const std::string &email);
   bool checkUserExist(const std::string &email);
   bool checkPassword(const std::string &password, const std::string &email);
 

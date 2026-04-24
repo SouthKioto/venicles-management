@@ -1,59 +1,54 @@
 #include "../include/controller/LoginController.hpp"
 #include "../../include/database/Database.hpp"
+#include "../include/additionalScripts/Validator.hpp"
 #include "../include/classes/Router.hpp"
+#include "../include/classes/Session.hpp"
 #include "../include/classes/User.hpp"
 #include "../include/view/MainView.hpp"
 #include <iostream>
 
 LoginController::LoginController(LoginModel *model, LoginView *view,
                                  Router *router, Database *database,
-                                 Logger *logger)
+                                 Logger *logger, Validator *validator)
     : _model(model), _view(view), router(router), database(database),
-      logger(logger) {
+      logger(logger), validator(validator) {
 
-  _view->submit->Bind(wxEVT_BUTTON, &LoginController::OnSubmitClicked, this);
+  _view->logInBtn->Bind(wxEVT_BUTTON, &LoginController::OnSubmitClicked, this);
 }
 
 LoginController::~LoginController() {}
 
 void LoginController::OnSubmitClicked(wxCommandEvent &event) {
-  bool loginFlag = true;
   std::vector<std::string> errors;
 
-  std::vector<User> userData;
+  User user;
   errors.clear();
 
-  if (_model->checkUserExist(_view->getEmailValue()) ||
-      _model->checkPassword(_view->getPasswordValue(),
-                            _view->getEmailValue())) {
-    logger->log(LogLevel::Error, "Cannot login");
-    loginFlag = false;
-  }
+  if (validator->checkEmpty(_view->getEmailValue()) ||
+      validator->checkEmpty(_view->getPasswordValue()) ||
+      !validator->validateEmail(_view->getEmailValue()) ||
+      !_model->checkUserExist(_view->getEmailValue()) ||
+      !_model->checkPassword(_view->getPasswordValue(),
+                             _view->getEmailValue()) ||
+      !_model->returnUserData(_view->getEmailValue()).has_value()) {
 
-  errors = _model->getErrors();
-
-  if (_model->returnUserData(_view->getEmailValue()).empty()) {
-    logger->log(LogLevel::Error, "Cannot login");
-
-    loginFlag = false;
-  }
-
-  if (!errors.empty()) {
-    logger->log(LogLevel::Error, "Cannot login");
-
-    loginFlag = false;
-  }
-
-  if (!errors.empty()) {
+    errors = validator->getErrors();
+    auto modelErrors = _model->getErrors();
+    errors.insert(errors.end(), modelErrors.begin(), modelErrors.end());
     _view->setErrors(errors);
 
-    loginFlag = false;
+    return;
   }
 
-  if (loginFlag) {
+  auto userData = _model->returnUserData(_view->getEmailValue());
+  user = userData.value();
+  int id = user.getId();
 
-    // TODO: wymyślic utrzymywanie sesji
-    // WARNING: setup sesji usera
-    router->navigate("home");
-  }
+  std::string email = user.getEmail();
+  Session::getInstance().login(id, email);
+
+  logger->log(LogLevel::Debug,
+              "Aktualnie zalogowany: " + Session::getInstance().getEmail());
+
+  router->navigate("home");
 }
