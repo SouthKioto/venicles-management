@@ -28,7 +28,8 @@ MainView::MainView(Logger *logger, Database *database)
   HomeView *homeView = new HomeView(container, router);
 
   // kotrolery
-  new LoginController(loginModel, loginView, router);
+  new LoginController(loginModel, loginView, router, this->database,
+                      this->logger);
   new HomeController(homeView, homeModel, router);
 
   homeView->Hide();

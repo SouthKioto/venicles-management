@@ -13,21 +13,19 @@
 class LoginModel {
 
 private:
-  User *user;
   Database *conn;
   Logger *logger;
 
   std::vector<std::string> errors;
-  bool canLogIn = true;
 
 public:
   LoginModel(Database *conn, Logger *logger);
 
   bool getLoginFlag();
 
-  LoginModel &setUserData(User *user);
-  LoginModel &checkUserExist();
-  LoginModel &checkPassword();
+  std::vector<User> returnUserData(const std::string &email);
+  bool checkUserExist(const std::string &email);
+  bool checkPassword(const std::string &password, const std::string &email);
 
   std::vector<std::string> getErrors();
 };

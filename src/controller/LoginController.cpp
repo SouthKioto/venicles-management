@@ -6,11 +6,10 @@
 #include <iostream>
 
 LoginController::LoginController(LoginModel *model, LoginView *view,
-                                 Router *router)
-    : _model(model), _view(view), router(router) {
-
-  _view->changePage->Bind(wxEVT_BUTTON, &LoginController::OnChangePageClicked,
-                          this);
+                                 Router *router, Database *database,
+                                 Logger *logger)
+    : _model(model), _view(view), router(router), database(database),
+      logger(logger) {
 
   _view->submit->Bind(wxEVT_BUTTON, &LoginController::OnSubmitClicked, this);
 }
@@ -18,28 +17,43 @@ LoginController::LoginController(LoginModel *model, LoginView *view,
 LoginController::~LoginController() {}
 
 void LoginController::OnSubmitClicked(wxCommandEvent &event) {
+  bool loginFlag = true;
   std::vector<std::string> errors;
+
+  std::vector<User> userData;
   errors.clear();
 
-  // INFO: dane trestowe bede zmienial jak dostane pelny formularz z widoku
-  User user("Jan", "Kowalski", "jkowalski@example.com", "123");
-
-  _model->setUserData(&user).checkPassword();
+  if (_model->checkUserExist(_view->getEmailValue()) ||
+      _model->checkPassword(_view->getPasswordValue(),
+                            _view->getEmailValue())) {
+    logger->log(LogLevel::Error, "Cannot login");
+    loginFlag = false;
+  }
 
   errors = _model->getErrors();
 
-  // WARNING:
-  // if(!errors.empty() {
-  //  przekazanie do widoku errorow poprzez
-  //  _view->setErrors(errors)
-  // }
+  if (_model->returnUserData(_view->getEmailValue()).empty()) {
+    logger->log(LogLevel::Error, "Cannot login");
 
-  if (errors.empty() && _model->getLoginFlag()) {
-    // zmiana widoku
+    loginFlag = false;
+  }
+
+  if (!errors.empty()) {
+    logger->log(LogLevel::Error, "Cannot login");
+
+    loginFlag = false;
+  }
+
+  if (!errors.empty()) {
+    _view->setErrors(errors);
+
+    loginFlag = false;
+  }
+
+  if (loginFlag) {
+
+    // TODO: wymyślic utrzymywanie sesji
+    // WARNING: setup sesji usera
     router->navigate("home");
   }
-}
-
-void LoginController::OnChangePageClicked(wxCommandEvent &event) {
-  // this->router->navigate("home");
 }

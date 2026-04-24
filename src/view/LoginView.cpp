@@ -1,48 +1,61 @@
 #include "../include/view/LoginView.hpp"
-
 #include <wx/stattext.h>
 
-LoginView::LoginView(wxWindow *window, Router *router) : wxPanel(window) {
+LoginView::~LoginView() {}
 
-  // WARNING: utworzenie głównego kontenera
+LoginView::LoginView(wxWindow *window, Router *router) : wxPanel(window) {
   wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
 
-  // WARNING: utworzenie konetenra z imieniem
-  wxBoxSizer *nameRow = new wxBoxSizer(wxHORIZONTAL);
-  wxStaticText *labelName = new wxStaticText(this, wxID_ANY, "Imie");
+  mainSizer->AddStretchSpacer(1);
 
-  name = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(150, 25));
+  wxBoxSizer *formSizer = new wxBoxSizer(wxVERTICAL);
 
-  // WARNING: dodawanie elementów interfejsu do kontenera
-  nameRow->Add(labelName, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
-  nameRow->Add(name, 1, wxALL | wxEXPAND, 5);
+  wxBoxSizer *errorRow = new wxBoxSizer(wxHORIZONTAL);
 
-  mainSizer->Add(nameRow, 0, wxEXPAND | wxALL, 5);
+  if (!this->errors.empty()) {
+    for (std::string errorMessage : this->errors) {
 
-  // WARNING: utworzenie konetenra z imieniem
-  wxBoxSizer *surnameRow = new wxBoxSizer(wxHORIZONTAL);
-  wxStaticText *labelSurname = new wxStaticText(this, wxID_ANY, "Nazwisko");
+      wxStaticText *labelError = new wxStaticText(this, wxID_ANY, errorMessage);
+      errorRow->Add(labelError, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 10);
+    }
+  }
 
-  surname =
-      new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(150, 25));
+  formSizer->Add(errorRow, 0, wxEXPAND | wxBOTTOM, 10);
 
-  // WARNING: dodawanie elementów interfejsu do kontenera
-  surnameRow->Add(labelSurname, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
-  surnameRow->Add(surname, 1, wxALL | wxEXPAND, 5);
+  wxBoxSizer *emailRow = new wxBoxSizer(wxHORIZONTAL);
+  wxStaticText *labelEmail = new wxStaticText(this, wxID_ANY, "Email");
+  email =
+      new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(200, -1));
 
-  mainSizer->Add(surnameRow, 0, wxEXPAND | wxALL, 5);
+  emailRow->Add(labelEmail, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 10);
+  emailRow->Add(email, 1);
 
-  submit = new wxButton(this, wxID_ANY, "Zatwierdz");
-  mainSizer->Add(submit, 0, wxALL | wxALIGN_CENTER_HORIZONTAL, 15);
+  formSizer->Add(emailRow, 0, wxEXPAND | wxBOTTOM, 10);
 
-  changePage = new wxButton(this, wxID_ANY, "Zmien na main");
-  mainSizer->Add(changePage, 0, wxALL | wxALIGN_CENTER_HORIZONTAL, 15);
+  wxBoxSizer *passwordRow = new wxBoxSizer(wxHORIZONTAL);
+  wxStaticText *labelPassword = new wxStaticText(this, wxID_ANY, "Password");
+  password =
+      new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(200, -1));
 
-  // WARNING: dodanie układu do strony
+  passwordRow->Add(labelPassword, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 10);
+  passwordRow->Add(password, 1);
+
+  formSizer->Add(passwordRow, 0, wxEXPAND | wxBOTTOM, 20);
+
+  submit = new wxButton(this, wxID_ANY, "Zatwierdź");
+
+  formSizer->Add(submit, 0, wxALIGN_CENTER | wxBOTTOM, 10);
+
+  mainSizer->Add(formSizer, 0, wxALIGN_CENTER);
+
+  mainSizer->AddStretchSpacer(1);
+
   this->SetSizer(mainSizer);
   mainSizer->Fit(this);
 }
 
-LoginView::~LoginView() {
-  // wxWidgets sam czysci dzieci, wiec nie trzeba nic usuwac w destruktorze
+void LoginView::setErrors(std::vector<std::string> &errors) {
+  this->errors = errors;
 }
+
+std::vector<std::string> LoginView::getErrors() const { return this->errors; }
