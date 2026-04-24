@@ -24,13 +24,14 @@ void LoginController::OnSubmitClicked(wxCommandEvent &event) {
   User user;
   errors.clear();
 
-  if (validator->checkEmpty(_view->getEmailValue()) ||
-      validator->checkEmpty(_view->getPasswordValue()) ||
-      !validator->validateEmail(_view->getEmailValue()) ||
-      !_model->checkUserExist(_view->getEmailValue()) ||
-      !_model->checkPassword(_view->getPasswordValue(),
-                             _view->getEmailValue()) ||
-      !_model->returnUserData(_view->getEmailValue()).has_value()) {
+  if (validator->checkEmpty((std::string)_view->getEmailValue()) ||
+      validator->checkEmpty((std::string)_view->getPasswordValue()) ||
+      !validator->validateEmail((std::string)_view->getEmailValue()) ||
+      !_model->checkUserExist((std::string)_view->getEmailValue()) ||
+      !_model->checkPassword((std::string)_view->getPasswordValue(),
+                             (std::string)_view->getEmailValue()) ||
+      !_model->returnUserData((std::string)_view->getEmailValue())
+           .has_value()) {
 
     errors = validator->getErrors();
     auto modelErrors = _model->getErrors();
@@ -40,7 +41,7 @@ void LoginController::OnSubmitClicked(wxCommandEvent &event) {
     return;
   }
 
-  auto userData = _model->returnUserData(_view->getEmailValue());
+  auto userData = _model->returnUserData((std::string)_view->getEmailValue());
   user = userData.value();
   int id = user.getId();
 
