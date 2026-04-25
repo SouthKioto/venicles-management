@@ -17,6 +17,7 @@ private:
   LoginView *_view;
 
   void OnSubmitClicked(wxCommandEvent &event);
+  void OnRegisterClicked(wxCommandEvent &event);
 
 public:
   Router *router;

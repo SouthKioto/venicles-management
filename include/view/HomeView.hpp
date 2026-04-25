@@ -10,7 +10,7 @@ private:
   Router *router;
 
 public:
-  wxButton *changePage;
+  wxButton *logoutBtn;
 
   HomeView(wxWindow *window, Router *router);
 

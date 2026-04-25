@@ -12,11 +12,12 @@ private:
   HomeView *_view;
   HomeModel *_model;
 
+  void OnLogoutClicked(wxCommandEvent &event);
+
 public:
   Router *router;
   HomeController(HomeView *view, HomeModel *model, Router *router);
   ~HomeController();
-  void OnChangePageClicked(wxCommandEvent &event);
 };
 
 #endif // !HOMECONTROLLER_HPP
