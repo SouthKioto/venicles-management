@@ -7,20 +7,26 @@ class Router;
 
 class LoginView : public wxPanel {
 private:
-  wxTextCtrl *name;
-  wxTextCtrl *surname;
+  wxTextCtrl *email;
+  wxTextCtrl *password;
   Router *router;
+  std::vector<std::string> errors;
 
 public:
-  wxButton *submit;
-  wxButton *changePage;
+  wxButton *logInBtn;
+  wxButton *registerBtn;
+  wxBoxSizer *errorRow;
 
   LoginView(wxWindow *window, Router *router);
   virtual ~LoginView();
 
-  wxString getNameValue() const { return name->GetValue(); }
+  void setErrors(const std::vector<std::string> &errors);
 
-  wxString getSurnameValue() const { return surname->GetValue(); }
+  std::vector<std::string> getErrors() const;
+
+  wxString getEmailValue() const { return email->GetValue(); }
+
+  wxString getPasswordValue() const { return password->GetValue(); }
 };
 
 #endif // !LOGIN_VIEW_HPP

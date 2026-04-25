@@ -1,45 +1,55 @@
 #include "../include/controller/LoginController.hpp"
 #include "../../include/database/Database.hpp"
+#include "../include/additionalScripts/Validator.hpp"
 #include "../include/classes/Router.hpp"
+#include "../include/classes/Session.hpp"
 #include "../include/classes/User.hpp"
 #include "../include/view/MainView.hpp"
 #include <iostream>
 
 LoginController::LoginController(LoginModel *model, LoginView *view,
-                                 Router *router)
-    : _model(model), _view(view), router(router) {
+                                 Router *router, Database *database,
+                                 Logger *logger, Validator *validator)
+    : _model(model), _view(view), router(router), database(database),
+      logger(logger), validator(validator) {
 
-  _view->changePage->Bind(wxEVT_BUTTON, &LoginController::OnChangePageClicked,
-                          this);
-
-  _view->submit->Bind(wxEVT_BUTTON, &LoginController::OnSubmitClicked, this);
+  _view->logInBtn->Bind(wxEVT_BUTTON, &LoginController::OnSubmitClicked, this);
 }
 
 LoginController::~LoginController() {}
 
 void LoginController::OnSubmitClicked(wxCommandEvent &event) {
   std::vector<std::string> errors;
+
+  User user;
   errors.clear();
 
-  // INFO: dane trestowe bede zmienial jak dostane pelny formularz z widoku
-  User user("Jan", "Kowalski", "jkowalski@example.com", "123");
+  if (validator->checkEmpty((std::string)_view->getEmailValue()) ||
+      validator->checkEmpty((std::string)_view->getPasswordValue()) ||
+      !validator->validateEmail((std::string)_view->getEmailValue()) ||
+      !_model->checkUserExist((std::string)_view->getEmailValue()) ||
+      !_model->checkPassword((std::string)_view->getPasswordValue(),
+                             (std::string)_view->getEmailValue()) ||
+      !_model->returnUserData((std::string)_view->getEmailValue())
+           .has_value()) {
 
-  _model->setUserData(&user).checkPassword();
+    errors = validator->getErrors();
+    auto modelErrors = _model->getErrors();
+    errors.insert(errors.end(), modelErrors.begin(), modelErrors.end());
+    _view->setErrors(errors);
 
-  errors = _model->getErrors();
-
-  // WARNING:
-  // if(!errors.empty() {
-  //  przekazanie do widoku errorow poprzez
-  //  _view->setErrors(errors)
-  // }
-
-  if (errors.empty() && _model->getLoginFlag()) {
-    // zmiana widoku
-    router->navigate("home");
+    return;
   }
-}
 
-void LoginController::OnChangePageClicked(wxCommandEvent &event) {
-  // this->router->navigate("home");
+  auto userData = _model->returnUserData((std::string)_view->getEmailValue());
+  user = userData.value();
+  int id = user.getId();
+
+  std::string email = user.getEmail();
+  Session::getInstance().login(id, email);
+
+  logger->log(LogLevel::Debug,
+              "Aktualnie zalogowany: " + Session::getInstance().getEmail());
+
+  router->navigate("home");
 }

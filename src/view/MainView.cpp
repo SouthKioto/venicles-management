@@ -1,4 +1,5 @@
 #include "../include/view/MainView.hpp"
+#include "../include/additionalScripts/Validator.hpp"
 #include "../include/classes/Router.hpp"
 #include "../include/controller/HomeController.hpp"
 #include "../include/controller/LoginController.hpp"
@@ -10,37 +11,38 @@
 
 MainView::MainView(Logger *logger, Database *database)
     : wxFrame(NULL, wxID_ANY, "Venicle Management App") {
-
   this->database = database;
   this->logger = logger;
 
-  SetClientSize(wxSize(600, 400));
-  wxPanel *container = new wxPanel(this);
+  Validator *validator = new Validator(*logger);
 
+  SetClientSize(wxSize(600, 400));
+
+  wxPanel *container = new wxPanel(this);
   router = new Router(container, logger);
 
-  // modele
   LoginModel *loginModel = new LoginModel(database, logger);
   HomeModel *homeModel = new HomeModel();
 
-  // widoki
   LoginView *loginView = new LoginView(container, router);
   HomeView *homeView = new HomeView(container, router);
 
-  // kotrolery
-  new LoginController(loginModel, loginView, router);
+  new LoginController(loginModel, loginView, router, this->database,
+                      this->logger, validator);
   new HomeController(homeView, homeModel, router);
 
   homeView->Hide();
-
   router->add("login", loginView);
   router->add("home", homeView);
 
-  router->navigate("login");
+  wxBoxSizer *containerSizer = new wxBoxSizer(wxVERTICAL);
+  containerSizer->Add(loginView, 1, wxEXPAND);
+  containerSizer->Add(homeView, 1, wxEXPAND);
+  container->SetSizer(containerSizer);
 
-  wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-  sizer->Add(container, 1, wxEXPAND);
-  this->SetSizer(sizer);
+  wxBoxSizer *frameSizer = new wxBoxSizer(wxVERTICAL);
+  frameSizer->Add(container, 1, wxEXPAND);
+  this->SetSizer(frameSizer);
 
   router->navigate("login");
 }

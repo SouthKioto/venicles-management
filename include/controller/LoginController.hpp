@@ -6,6 +6,9 @@
 #include <wx/event.h> // WARNING: bindowanie zdarzen (onclick ect)
 
 class Router;
+class Database;
+class Logger;
+class Validator;
 
 class LoginController {
 
@@ -13,13 +16,16 @@ private:
   LoginModel *_model;
   LoginView *_view;
 
-  // WARNING: callback, po wykonaniu przycisku
   void OnSubmitClicked(wxCommandEvent &event);
-  void OnChangePageClicked(wxCommandEvent &event);
 
 public:
   Router *router;
-  LoginController(LoginModel *model, LoginView *view, Router *router);
+  Database *database;
+  Logger *logger;
+  Validator *validator;
+
+  LoginController(LoginModel *model, LoginView *view, Router *router,
+                  Database *database, Logger *logger, Validator *validator);
   ~LoginController();
 };
 
