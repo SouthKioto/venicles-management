@@ -5,7 +5,7 @@
 #include <string>
 
 enum class LogLevel { Debug, Info, Warning, Error, Critical };
-
+//
 class Logger {
 private:
   std::ofstream logFile;
