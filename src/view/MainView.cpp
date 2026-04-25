@@ -8,6 +8,7 @@
 #include "../include/model/LoginModel.hpp"
 #include "../include/view/HomeView.hpp"
 #include "../include/view/LoginView.hpp"
+#include "../include/view/RegisterView.hpp"
 
 MainView::MainView(Logger *logger, Database *database)
     : wxFrame(NULL, wxID_ANY, "Venicle Management App") {
@@ -26,18 +27,22 @@ MainView::MainView(Logger *logger, Database *database)
 
   LoginView *loginView = new LoginView(container, router);
   HomeView *homeView = new HomeView(container, router);
+  RegisterView *registerView = new RegisterView(container, router);
 
   new LoginController(loginModel, loginView, router, this->database,
                       this->logger, validator);
   new HomeController(homeView, homeModel, router);
 
   homeView->Hide();
+  registerView->Hide();
   router->add("login", loginView);
   router->add("home", homeView);
+  router->add("register", registerView);
 
   wxBoxSizer *containerSizer = new wxBoxSizer(wxVERTICAL);
   containerSizer->Add(loginView, 1, wxEXPAND);
   containerSizer->Add(homeView, 1, wxEXPAND);
+  containerSizer->Add(registerView, 1, wxEXPAND);
   container->SetSizer(containerSizer);
 
   wxBoxSizer *frameSizer = new wxBoxSizer(wxVERTICAL);

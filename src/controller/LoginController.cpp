@@ -14,9 +14,15 @@ LoginController::LoginController(LoginModel *model, LoginView *view,
       logger(logger), validator(validator) {
 
   _view->logInBtn->Bind(wxEVT_BUTTON, &LoginController::OnSubmitClicked, this);
+  _view->registerBtn->Bind(wxEVT_BUTTON, &LoginController::OnRegisterClicked,
+                           this);
 }
 
 LoginController::~LoginController() {}
+
+void LoginController::OnRegisterClicked(wxCommandEvent &event) {
+  router->navigate("register");
+}
 
 void LoginController::OnSubmitClicked(wxCommandEvent &event) {
   std::vector<std::string> errors;
