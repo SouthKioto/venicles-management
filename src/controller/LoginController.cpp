@@ -49,10 +49,9 @@ void LoginController::OnSubmitClicked(wxCommandEvent &event) {
 
   auto userData = _model->returnUserData((std::string)_view->getEmailValue());
   user = userData.value();
-  int id = user.getId();
 
   std::string email = user.getEmail();
-  Session::getInstance().login(id, email);
+  Session::getInstance().login(&user);
 
   logger->log(LogLevel::Debug,
               "Aktualnie zalogowany: " + Session::getInstance().getEmail());
