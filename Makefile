@@ -2,7 +2,7 @@ TARGET = main
 RM = rm -rf
 FixPath = $1
 
-CXX = clang++
+CXX = g++
 
 CXXFLAGS = -std=c++20 -Wall -Wextra \
 -Iinclude \
