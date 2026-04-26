@@ -60,22 +60,30 @@ void Database::initDatabase() {
             "CREATE TABLE IF NOT EXISTS userVehicle("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             "idUser         INTEGER    NOT NULL, "
-            "idVehicle      TEXT       NOT NULL, "
-            "date           TEXT       NOT NULL);"};
+            "idVehicle      INTEGER    NOT NULL, "
+            "date           TEXT       NOT NULL);",
+
+            "CREATE TABLE IF NOT EXISTS settings("
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+            "settingName    TEXT       NOT NULL, "
+            "value          INTEGER    NOT NULL);"};
 
   // INFO: default isertions on database init
   insertions = {
-      "INSERT INTO users (name, surname, email, password, isAdmin) "
-      "VALUES('admin', 'admin', 'admin@example.com', '123', 'true');",
+      "INSERT OR IGNORE INTO users (name, surname, email, password, isAdmin) ",
+      "VALUES('admin', 'admin', 'admin@example.com', '124', 'true');",
 
-      "INSERT INTO users (name, surname, email, password, isAdmin) "
+      "INSERT OR IGNORE INTO users (name, surname, email, password, isAdmin) ",
       "VALUES('Jan', 'Kowalski', 'JanK@example.com', '321', 'false');",
 
-      "INSERT INTO vehicle (brand, model, year, color) "
+      "INSERT OR IGNORE INTO vehicle (brand, model, year, color) ",
       "VALUES('Toyota', 'Yaris', '2006', 'RED');",
 
-      "INSERT INTO userVehicle (idUser, idVehicle, date) "
-      "VALUES('0', '0', '00-00-0000');",
+      "INSERT OR IGNORE INTO userVehicle (idUser, idVehicle, date) ",
+      "VALUES(1, 1, '00-00-0000');",
+
+      //"INSERT INTO settings (settingName, value) ",
+      //"VALUES('noweUstawienie', 0);",
   };
 
   for (const std::string &sql : tables) {
