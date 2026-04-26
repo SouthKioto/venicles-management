@@ -2,7 +2,7 @@
 #define VEHICLE_HPP
 
 #include <string>
-#include "User.hpp" // Zakładam, że User.hpp jest w tym samym folderze
+#include "User.hpp"
 
 class Vehicle {
 private:
@@ -12,7 +12,7 @@ private:
     std::string color;
     std::string licensePlate;
     std::string vin;
-    User owner; // Obiekt klasy User zamiast stringa
+    User owner;
 
 public:
     Vehicle(std::string make, std::string model, int year, std::string color,
