@@ -11,8 +11,8 @@ RegisterModel::~RegisterModel() {}
 bool RegisterModel::checkUserExists(const std::string& email) {
     errors.clear();
     if (conn->userExists(email)) {
-        errors.push_back("Użytkownik o podanym adresie email już istnieje.");
-        logger->log(LogLevel::Warning, "Próba rejestracji na istniejący email: " + email);
+        errors.push_back("A user with this email address already exists.");
+        logger->log(LogLevel::Warning, "Registration attempt for an existing email: " + email);
         return true;
     }
     return false;
@@ -21,7 +21,7 @@ bool RegisterModel::checkUserExists(const std::string& email) {
 bool RegisterModel::registerUser(const std::string& name, const std::string& surname, const std::string& email, const std::string& password) {
     errors.clear();
     conn->addUser(name, surname, email, password);
-    logger->log(LogLevel::Info, "Zarejestrowano nowego użytkownika: " + email);
+    logger->log(LogLevel::Info, "Registered a new user: " + email);
     return true;
 }
 
