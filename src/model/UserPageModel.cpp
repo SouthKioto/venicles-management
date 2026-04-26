@@ -1,31 +1,24 @@
 #include "../include/model/UserPageModel.hpp"
+#include "../include/classes/Session.hpp"
 
-UserPageModel::UserPageModel(User *user, Router *router, Database *database,
-                             Logger *logger)
-    : user(user), router(router), database(database), logger(logger) {}
-
-User *UserPageModel::getUserData() { return this->user; }
-
-bool UserPageModel::checkAdmin() {
-  this->isAdmin = user->getAdminPermission();
-  return this->isAdmin;
-}
+UserPageModel::UserPageModel(Database *database, Logger *logger)
+    : database(database), logger(logger) {}
 
 bool UserPageModel::showAdminSettings() {
-  if (!user->getAdminPermission()) {
+  if (!Session::getInstance().getAdmin()) {
     logger->log(LogLevel::Info, "No access");
     return false;
   }
 
-  logger->log(LogLevel::Info,
-              "User " + user->getEmail() + " jest administratorem");
+  logger->log(LogLevel::Info, "User " + Session::getInstance().getName() +
+                                  " jest administratorem");
   return true;
 }
 
 std::vector<Vehicle> UserPageModel::getUserVehicles() {
   std::vector<Vehicle> vehicles;
 
-  std::string userId = std::to_string(user->getId());
+  std::string userId = std::to_string(Session::getInstance().getUserId());
 
   auto mapToVehicle = [](sqlite3_stmt *stmt) -> Vehicle {
     Vehicle vehicle;

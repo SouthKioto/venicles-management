@@ -17,9 +17,16 @@ HomeView::HomeView(wxWindow *window, Router *router) : wxPanel(window) {
   logoutBtn->SetFont(
       wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
 
+  userPageBtn = new wxButton(this, wxID_ANY, "Twoje konto");
+  userPageBtn->SetBackgroundColour(wxColour(55, 65, 81));
+  userPageBtn->SetForegroundColour(wxColour(255, 255, 255));
+  userPageBtn->SetFont(
+      wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+
   titleRow->Add(labelTitle, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
   titleRow->AddStretchSpacer(1);
   titleRow->Add(logoutBtn, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+  titleRow->Add(userPageBtn, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 
   mainSizer->Add(titleRow, 0, wxEXPAND | wxALL, 5);
 
@@ -33,11 +40,11 @@ HomeView::HomeView(wxWindow *window, Router *router) : wxPanel(window) {
       new wxStaticText(mainPanel, wxID_ANY, "Panel", wxDefaultPosition,
                        wxDefaultSize, wxALIGN_CENTER);
   panelTitle->SetForegroundColour(wxColour(255, 255, 255));
-  panelTitle->SetFont(wxFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
-                            wxFONTWEIGHT_BOLD));
+  panelTitle->SetFont(
+      wxFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
   wxStaticText *panelDesc =
-      new wxStaticText(mainPanel, wxID_ANY, "Opis panelu",
-                       wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
+      new wxStaticText(mainPanel, wxID_ANY, "Opis panelu", wxDefaultPosition,
+                       wxDefaultSize, wxALIGN_CENTER);
   panelDesc->SetForegroundColour(wxColour(107, 114, 128));
   panelSizer->AddStretchSpacer(1);
   panelSizer->Add(panelTitle, 0, wxEXPAND | wxBOTTOM, 8);

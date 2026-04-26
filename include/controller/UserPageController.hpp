@@ -14,6 +14,8 @@ private:
 
 public:
   UserPageController(UserPageView *view, UserPageModel *model, Router *router);
+
+  void OnBackButtonClick(wxCommandEvent &event);
 };
 
 #endif // !USER_PAGE_CONTROLLER_HPP
