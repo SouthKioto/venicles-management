@@ -14,7 +14,7 @@ RegisterView::RegisterView(wxWindow *window, Router *router)
   wxBoxSizer *formSizer = new wxBoxSizer(wxVERTICAL);
 
   wxStaticText *titleLabel =
-      new wxStaticText(this, wxID_ANY, "Rejestracja", wxDefaultPosition,
+      new wxStaticText(this, wxID_ANY, "Registration", wxDefaultPosition,
                        wxDefaultSize, wxALIGN_CENTER);
   titleLabel->SetFont(
       wxFont(18, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
@@ -22,7 +22,7 @@ RegisterView::RegisterView(wxWindow *window, Router *router)
   formSizer->Add(titleLabel, 0, wxALIGN_CENTER | wxBOTTOM, 4);
 
   wxStaticText *subLabel =
-      new wxStaticText(this, wxID_ANY, "Wypelnij formularz aby utworzyc konto",
+      new wxStaticText(this, wxID_ANY, "Fill out the form to create an account",
                        wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
   subLabel->SetFont(wxFont(9, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
                            wxFONTWEIGHT_NORMAL));
@@ -34,7 +34,7 @@ RegisterView::RegisterView(wxWindow *window, Router *router)
 
   // Wiersz: Imie
   wxBoxSizer *nameRow = new wxBoxSizer(wxHORIZONTAL);
-  wxStaticText *labelName = new wxStaticText(this, wxID_ANY, "Imie: ");
+  wxStaticText *labelName = new wxStaticText(this, wxID_ANY, "First Name: ");
   labelName->SetFont(wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
                             wxFONTWEIGHT_BOLD));
   labelName->SetForegroundColour(wxColour(156, 163, 175));
@@ -49,7 +49,7 @@ RegisterView::RegisterView(wxWindow *window, Router *router)
 
   // Wiersz: Nazwisko
   wxBoxSizer *surnameRow = new wxBoxSizer(wxHORIZONTAL);
-  wxStaticText *labelSurname = new wxStaticText(this, wxID_ANY, "Nazwisko: ");
+  wxStaticText *labelSurname = new wxStaticText(this, wxID_ANY, "Last Name: ");
   labelSurname->SetFont(wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
                                wxFONTWEIGHT_BOLD));
   labelSurname->SetForegroundColour(wxColour(156, 163, 175));
@@ -80,7 +80,7 @@ RegisterView::RegisterView(wxWindow *window, Router *router)
 
   // Wiersz: Haslo
   wxBoxSizer *passwordRow = new wxBoxSizer(wxHORIZONTAL);
-  wxStaticText *labelPassword = new wxStaticText(this, wxID_ANY, "Haslo: ");
+  wxStaticText *labelPassword = new wxStaticText(this, wxID_ANY, "Password: ");
   labelPassword->SetFont(wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
                                 wxFONTWEIGHT_BOLD));
   labelPassword->SetForegroundColour(wxColour(156, 163, 175));
@@ -97,7 +97,7 @@ RegisterView::RegisterView(wxWindow *window, Router *router)
   // Wiersz: Potwierdz haslo
   wxBoxSizer *confirmRow = new wxBoxSizer(wxHORIZONTAL);
   wxStaticText *labelConfirm =
-      new wxStaticText(this, wxID_ANY, "Potwierdz: ");
+      new wxStaticText(this, wxID_ANY, "Confirm: ");
   labelConfirm->SetFont(wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
                                wxFONTWEIGHT_BOLD));
   labelConfirm->SetForegroundColour(wxColour(156, 163, 175));
@@ -114,14 +114,14 @@ RegisterView::RegisterView(wxWindow *window, Router *router)
   // Przyciski
   wxBoxSizer *btnRow = new wxBoxSizer(wxHORIZONTAL);
 
-  registerBtn = new wxButton(this, wxID_ANY, "Zarejestruj", wxDefaultPosition,
+  registerBtn = new wxButton(this, wxID_ANY, "Register", wxDefaultPosition,
                              wxSize(-1, 38));
   registerBtn->SetBackgroundColour(wxColour(99, 102, 241));
   registerBtn->SetForegroundColour(wxColour(255, 255, 255));
   registerBtn->SetFont(wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
                               wxFONTWEIGHT_BOLD));
 
-  backBtn = new wxButton(this, wxID_ANY, "Powrot", wxDefaultPosition,
+  backBtn = new wxButton(this, wxID_ANY, "Back", wxDefaultPosition,
                          wxSize(-1, 38));
   backBtn->SetBackgroundColour(wxColour(55, 65, 81));
   backBtn->SetForegroundColour(wxColour(255, 255, 255));
@@ -131,9 +131,6 @@ RegisterView::RegisterView(wxWindow *window, Router *router)
   btnRow->Add(registerBtn, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 10);
   btnRow->Add(backBtn, 0, wxALIGN_CENTER_VERTICAL);
 
-  backBtn->Bind(wxEVT_BUTTON, [this](wxCommandEvent &) {
-    this->router->navigate("login");
-  });
   formSizer->Add(btnRow, 0, wxALIGN_CENTER | wxBOTTOM, 10);
 
   mainSizer->Add(formSizer, 0, wxEXPAND | wxLEFT | wxRIGHT, 40);

@@ -10,7 +10,17 @@ RegisterModel::~RegisterModel() {}
 
 bool RegisterModel::checkUserExists(const std::string& email) {
     errors.clear();
-    if (conn->userExists(email)) {
+
+    auto mapToUser = [](sqlite3_stmt* stmt) -> User {
+        User user;
+        user.setEmail((const char*)sqlite3_column_text(stmt, 0));
+        return user;
+    };
+
+    std::string sql = "SELECT email FROM users WHERE email = '" + email + "' LIMIT 1;";
+    std::vector<User> users = conn->fetch<User>(sql, mapToUser);
+
+    if (!users.empty()) {
         errors.push_back("A user with this email address already exists.");
         logger->log(LogLevel::Warning, "Registration attempt for an existing email: " + email);
         return true;
@@ -20,7 +30,12 @@ bool RegisterModel::checkUserExists(const std::string& email) {
 
 bool RegisterModel::registerUser(const std::string& name, const std::string& surname, const std::string& email, const std::string& password) {
     errors.clear();
-    conn->addUser(name, surname, email, password);
+
+    std::string sql = "INSERT INTO users (name, surname, email, password, isAdmin) VALUES ('" + 
+                      name + "', '" + surname + "', '" + email + "', '" + password + "', 'false');";
+    
+    conn->executeQuery(sql);
+
     logger->log(LogLevel::Info, "Registered a new user: " + email);
     return true;
 }
