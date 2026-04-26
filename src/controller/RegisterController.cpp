@@ -19,28 +19,30 @@ void RegisterController::OnBackClicked(wxCommandEvent &event) {
 }
 
 void RegisterController::OnRegisterClicked(wxCommandEvent &event) {
-  std::string name = (std::string)_view->getNameValue();
-  std::string surname = (std::string)_view->getSurnameValue();
-  std::string email = (std::string)_view->getEmailValue();
-  std::string password = (std::string)_view->getPasswordValue();
-  std::string confirm = (std::string)_view->getConfirmPasswordValue();
+  std::string name = _view->getNameValue().ToStdString();
+  std::string surname = _view->getSurnameValue().ToStdString();
+  std::string email = _view->getEmailValue().ToStdString();
+  std::string password = _view->getPasswordValue().ToStdString();
+  std::string confirm = _view->getConfirmPasswordValue().ToStdString();
 
   std::vector<std::string> errors;
 
-  // basic validation
-  if (validator->checkEmpty(name) || validator->checkEmpty(surname) ||
-      validator->checkEmpty(email) || validator->checkEmpty(password)) {
-    errors.push_back("All fields are required.");
-  } else if (password != confirm) {
-    errors.push_back("Passwords do not match.");
-  } else {
-      // logic validation
-      validator->validateEmail(email);
+  if (validator->checkEmpty(name) || 
+      validator->checkEmpty(surname) ||
+      validator->checkEmpty(email) || 
+      validator->checkEmpty(password) ||
+      !validator->validateEmail(email)) {
+  } 
+  else if (password != confirm) {
+      errors.push_back("Passwords do not match.");
+  } 
+  else {
       _model->checkUserExists(email);
   }
 
-  errors.insert(errors.end(), validator->getErrors().begin(), validator->getErrors().end());
-  auto modelErrors = _model->getErrors();
+  std::vector<std::string> valErrors = validator->getErrors();
+  errors.insert(errors.end(), valErrors.begin(), valErrors.end());
+  std::vector<std::string> modelErrors = _model->getErrors();
   errors.insert(errors.end(), modelErrors.begin(), modelErrors.end());
 
   if (!errors.empty()) {
