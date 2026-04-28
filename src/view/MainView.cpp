@@ -26,10 +26,11 @@ MainView::MainView(Logger *logger, Database *database)
 
   LoginModel *loginModel = new LoginModel(database, logger);
   RegisterModel *registerModel = new RegisterModel(database, logger);
-  HomeModel *homeModel = new HomeModel();
+  HomeModel *homeModel = new HomeModel(database, logger);
+  std::vector<VehicleSummary> vehicles = homeModel->getVehicles();
 
   LoginView *loginView = new LoginView(container, router);
-  HomeView *homeView = new HomeView(container, router);
+  HomeView *homeView = new HomeView(container, router, vehicles);
   RegisterView *registerView = new RegisterView(container, router);
 
   new LoginController(loginModel, loginView, router, this->database,
