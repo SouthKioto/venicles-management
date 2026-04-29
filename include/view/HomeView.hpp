@@ -1,6 +1,8 @@
 #ifndef HOMEVIEW_HPP
 #define HOMEVIEW_HPP
 
+#include "../include/model/HomeModel.hpp"
+#include <vector>
 #include <wx/wx.h>
 
 class Router;
@@ -12,7 +14,8 @@ private:
 public:
   wxButton *logoutBtn;
 
-  HomeView(wxWindow *window, Router *router);
+  HomeView(wxWindow *window, Router *router,
+           const std::vector<VehicleSummary> &vehicles);
 
   void change();
 };
