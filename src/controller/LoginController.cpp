@@ -53,8 +53,5 @@ void LoginController::OnSubmitClicked(wxCommandEvent &event) {
   std::string email = user.getEmail();
   Session::getInstance().login(&user);
 
-  logger->log(LogLevel::Debug,
-              "Aktualnie zalogowany: " + Session::getInstance().getEmail());
-
   router->navigate("home");
 }

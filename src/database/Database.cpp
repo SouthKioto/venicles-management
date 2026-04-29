@@ -70,16 +70,16 @@ void Database::initDatabase() {
 
   // INFO: default isertions on database init
   insertions = {
-      "INSERT OR IGNORE INTO users (name, surname, email, password, isAdmin) ",
-      "VALUES('admin', 'admin', 'admin@example.com', '124', 'true');",
+      "INSERT OR IGNORE INTO users (name, surname, email, password, isAdmin) "
+      "VALUES('admin', 'admin', 'admin@example.com', '123', 1);",
 
-      "INSERT OR IGNORE INTO users (name, surname, email, password, isAdmin) ",
-      "VALUES('Jan', 'Kowalski', 'JanK@example.com', '321', 'false');",
+      "INSERT OR IGNORE INTO users (name, surname, email, password, isAdmin) "
+      "VALUES('Jan', 'Kowalski', 'JanK@example.com', '321', 0);",
 
-      "INSERT OR IGNORE INTO vehicle (brand, model, year, color) ",
+      "INSERT OR IGNORE INTO vehicle (brand, model, year, color) "
       "VALUES('Toyota', 'Yaris', '2006', 'RED');",
 
-      "INSERT OR IGNORE INTO userVehicle (idUser, idVehicle, date) ",
+      "INSERT OR IGNORE INTO userVehicle (idUser, idVehicle, date) "
       "VALUES(1, 1, '00-00-0000');",
 
       //"INSERT INTO settings (settingName, value) ",
