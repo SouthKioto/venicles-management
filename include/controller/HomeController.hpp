@@ -13,6 +13,7 @@ private:
   HomeModel *_model;
 
   void OnLogoutClicked(wxCommandEvent &event);
+  void OnUserPageClicked(wxCommandEvent &event);
 
 public:
   Router *router;
