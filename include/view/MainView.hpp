@@ -13,7 +13,12 @@ private:
 public:
   Logger *logger;
   Database *database;
+  wxPanel *container;
+  wxBoxSizer *containerSizer;
+
   MainView(Logger *logger, Database *database);
+
+  void initViews();
 };
 
 #endif // !MAINVIEW_HPP

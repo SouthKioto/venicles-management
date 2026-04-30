@@ -9,9 +9,10 @@
 
 LoginController::LoginController(LoginModel *model, LoginView *view,
                                  Router *router, Database *database,
-                                 Logger *logger, Validator *validator)
+                                 Logger *logger, Validator *validator,
+                                 MainView *mainView)
     : _model(model), _view(view), router(router), database(database),
-      logger(logger), validator(validator) {
+      logger(logger), validator(validator), mainview(mainView) {
 
   _view->logInBtn->Bind(wxEVT_BUTTON, &LoginController::OnSubmitClicked, this);
   _view->registerBtn->Bind(wxEVT_BUTTON, &LoginController::OnRegisterClicked,
@@ -53,5 +54,5 @@ void LoginController::OnSubmitClicked(wxCommandEvent &event) {
   std::string email = user.getEmail();
   Session::getInstance().login(&user);
 
-  router->navigate("home");
+  mainview->initViews();
 }

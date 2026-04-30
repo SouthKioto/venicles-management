@@ -79,6 +79,9 @@ void Database::initDatabase() {
       "INSERT OR IGNORE INTO vehicle (brand, model, year, color) "
       "VALUES('Toyota', 'Yaris', '2006', 'RED');",
 
+      "INSERT OR IGNORE INTO vehicle (brand, model, year, color) "
+      "VALUES('BMW', 'x5', '2007', 'WHITE');",
+
       "INSERT OR IGNORE INTO userVehicle (idUser, idVehicle, date) "
       "VALUES(1, 1, '00-00-0000');",
 

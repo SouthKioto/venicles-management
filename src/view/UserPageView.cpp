@@ -1,16 +1,22 @@
 #include "../include/view/UserPageView.hpp"
+#include "../include/classes/Session.hpp"
 
 #include <wx/stattext.h>
 
 UserPageView::UserPageView(wxWindow *window) : wxPanel(window) {
+
   SetBackgroundColour(wxColour(17, 24, 39));
   SetForegroundColour(wxColour(229, 231, 235));
-
   wxBoxSizer *mainSizer = new wxBoxSizer(wxVERTICAL);
+
   wxBoxSizer *titleRow = new wxBoxSizer(wxHORIZONTAL);
 
   wxStaticText *labelTitle =
-      new wxStaticText(this, wxID_ANY, wxString::FromUTF8(this->userName));
+      new wxStaticText(this, wxID_ANY, Session::getInstance().getName());
+  labelTitle->SetForegroundColour(wxColour(255, 255, 255));
+
+  wxStaticText *labelTest =
+      new wxStaticText(this, wxID_ANY, "ma uprawnienia admina");
   labelTitle->SetForegroundColour(wxColour(255, 255, 255));
 
   backButton = new wxButton(this, wxID_ANY, "Back To Home Page");
@@ -20,7 +26,9 @@ UserPageView::UserPageView(wxWindow *window) : wxPanel(window) {
       wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
 
   titleRow->Add(labelTitle, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
-  titleRow->AddStretchSpacer(1);
+  if (this->isAdmin) {
+    titleRow->Add(labelTest, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+  }
   titleRow->Add(backButton, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 
   mainSizer->Add(titleRow, 0, wxEXPAND | wxALL, 5);
