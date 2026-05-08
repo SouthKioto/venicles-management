@@ -16,9 +16,5 @@ void HomeController::OnLogoutClicked(wxCommandEvent &event) {
 }
 
 void HomeController::OnUserPageClicked(wxCommandEvent &event) {
-
-  std::cout << "\nNazwa uzytkownika zalagowanego: " +
-                   Session::getInstance().getName()
-            << std::endl;
   this->router->navigate("userPage");
 };

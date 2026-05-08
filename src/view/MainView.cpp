@@ -20,7 +20,7 @@ MainView::MainView(Logger *logger, Database *database)
   this->database = database;
   this->logger = logger;
 
-  SetClientSize(wxSize(600, 400));
+  SetClientSize(wxSize(900, 500));
   container = new wxPanel(this);
   router = new Router(container, logger);
   containerSizer = new wxBoxSizer(wxVERTICAL);

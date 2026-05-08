@@ -1,4 +1,5 @@
 #include "../include/controller/UserPageController.hpp"
+#include "../include/classes/Session.hpp"
 
 UserPageController::UserPageController(UserPageView *view, UserPageModel *model,
                                        Router *router)
@@ -7,8 +8,7 @@ UserPageController::UserPageController(UserPageView *view, UserPageModel *model,
   _view->backButton->Bind(wxEVT_BUTTON, &UserPageController::OnBackButtonClick,
                           this);
 
-  std::cout << _model->showAdminSettings() << std::endl;
-  _view->isAdmin = _model->showAdminSettings();
+  _view->isAdmin = Session::getInstance().getAdmin();
 };
 
 void UserPageController::OnBackButtonClick(wxCommandEvent &event) {
