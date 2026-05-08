@@ -1,28 +1,29 @@
 #include "../include/model/HomeModel.hpp"
 
 HomeModel::HomeModel(Database *conn, Logger *logger)
-    : conn(conn), logger(logger) {}
+    : conn(conn), logger(logger), vehicleList(conn, logger) {}
 
 int HomeModel::getVehicleCount() {
   return static_cast<int>(getVehicles().size());
 }
 
 std::vector<VehicleSummary> HomeModel::getVehicles() {
-  auto mapVehicle = [](sqlite3_stmt *stmt) -> VehicleSummary {
-    VehicleSummary vehicle;
-    vehicle.brand = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 0));
-    vehicle.model = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 1));
-    vehicle.year = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 2));
-    vehicle.color = reinterpret_cast<const char *>(sqlite3_column_text(stmt, 3));
-    return vehicle;
-  };
+  return getVehiclesByQuery(
+      "SELECT brand, model, year, color FROM vehicle ORDER BY id;");
+}
 
-  std::vector<VehicleSummary> vehicles = conn->fetch<VehicleSummary>(
-      "SELECT brand, model, year, color FROM vehicle ORDER BY id;", mapVehicle);
+std::vector<VehicleSummary>
+HomeModel::getVehiclesByQuery(const std::string &query) {
+  vehicleList.initList(query);
+  std::vector<VehicleSummary> vehicles = vehicleList.getList();
 
-  if (vehicles.empty()) {
+  if (vehicles.empty() && logger) {
     logger->log(LogLevel::Warning, "Brak aut w tabeli vehicle");
   }
 
   return vehicles;
+}
+
+const std::vector<std::string> &HomeModel::getVehicleErrors() const {
+  return vehicleList.getErrors();
 }

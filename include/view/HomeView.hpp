@@ -1,7 +1,8 @@
 #ifndef HOMEVIEW_HPP
 #define HOMEVIEW_HPP
 
-#include "../include/model/HomeModel.hpp"
+#include "../include/model/VehicleSummary.hpp"
+#include "../include/view/VehicleCarouselWidget.hpp"
 #include <vector>
 #include <wx/wx.h>
 
