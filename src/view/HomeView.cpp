@@ -1,7 +1,9 @@
 #include "../include/view/HomeView.hpp"
+#include "../include/additionalScripts/Logger.hpp"
+#include "../include/database/Database.hpp"
 
-HomeView::HomeView(wxWindow *window, Router *router,
-                   const std::vector<VehicleSummary> &vehicles)
+HomeView::HomeView(wxWindow *window, Router *router, Database *database,
+                   Logger *logger)
     : wxPanel(window) {
   (void)router;
   SetBackgroundColour(wxColour(17, 24, 39));
@@ -25,7 +27,8 @@ HomeView::HomeView(wxWindow *window, Router *router,
 
   mainSizer->Add(titleRow, 0, wxEXPAND | wxALL, 5);
 
-  VehicleCarouselWidget *carousel = new VehicleCarouselWidget(this, vehicles);
+  VehicleCarouselWidget *carousel =
+      new VehicleCarouselWidget(this, database, logger);
   mainSizer->Add(carousel, 1, wxEXPAND | wxLEFT | wxRIGHT | wxBOTTOM, 5);
 
   this->SetSizer(mainSizer);

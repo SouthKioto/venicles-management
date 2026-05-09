@@ -1,8 +1,16 @@
 #include "../include/view/VehicleCarouselWidget.hpp"
+#include "../include/classes/VehicleList.hpp"
+#include "../include/additionalScripts/Logger.hpp"
+#include "../include/database/Database.hpp"
 
 VehicleCarouselWidget::VehicleCarouselWidget(
-    wxWindow *parent, const std::vector<VehicleSummary> &vehicles)
+        wxWindow *parent, Database *database, Logger *logger)
     : wxPanel(parent) {
+
+    VehicleList vehicleList(database, logger);
+    vehicleList.initList(
+            "SELECT brand, model, year, color FROM vehicle ORDER BY id;");
+    const std::vector<VehicleSummary> vehicles = vehicleList.getList();
 
   SetBackgroundColour(wxColour(17, 24, 39));
 
@@ -17,7 +25,7 @@ VehicleCarouselWidget::VehicleCarouselWidget(
 
   wxStaticText *detailPlaceholder = new wxStaticText(
       detailPanel, wxID_ANY,
-      "Wybierz auto z listy\naby zobaczyc szczego³y.",
+      "Wybierz auto z listy\naby zobaczyc szczegoly.",
       wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
   detailPlaceholder->SetForegroundColour(wxColour(107, 114, 128));
   detailPlaceholder->SetFont(wxFont(11, wxFONTFAMILY_DEFAULT,

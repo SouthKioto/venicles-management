@@ -1,15 +1,15 @@
 #ifndef VEHICLECAROUSELWIDGET_HPP
 #define VEHICLECAROUSELWIDGET_HPP
 
-#include "../include/model/VehicleSummary.hpp"
-#include <vector>
 #include <wx/wx.h>
+
+class Database;
+class Logger;
 
 // Enkapsuluje lewy panel (slider aut) i prawy panel (podsumowanie rezerwacji).
 class VehicleCarouselWidget : public wxPanel {
 public:
-  VehicleCarouselWidget(wxWindow *parent,
-                        const std::vector<VehicleSummary> &vehicles);
+  VehicleCarouselWidget(wxWindow *parent, Database *database, Logger *logger);
 };
 
 #endif // !VEHICLECAROUSELWIDGET_HPP
