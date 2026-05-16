@@ -155,3 +155,12 @@ void RegisterView::setErrors(const std::vector<std::string> &errors) {
 std::vector<std::string> RegisterView::getErrors() const {
   return this->errors;
 }
+
+void RegisterView::clearFields() {
+  name->Clear();
+  surname->Clear();
+  email->Clear();
+  password->Clear();
+  confirmPassword->Clear();
+  setErrors({});
+}

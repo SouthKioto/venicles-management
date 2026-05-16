@@ -24,6 +24,7 @@ public:
   virtual ~RegisterView();
 
   void setErrors(const std::vector<std::string> &errors);
+  void clearFields();
   std::vector<std::string> getErrors() const;
 
   wxString getNameValue() const { return name->GetValue(); }
