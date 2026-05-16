@@ -61,7 +61,7 @@ void Database::initDatabase() {
             "CREATE TABLE IF NOT EXISTS userVehicle("
             "id INTEGER PRIMARY KEY AUTOINCREMENT, "
             "idUser         INTEGER    NOT NULL, "
-            "idVehicle      TEXT       NOT NULL, "
+            "idVehicle      INTEGER    NOT NULL, "
             "date           TEXT       NOT NULL, "
             "UNIQUE(idUser, idVehicle));"};
 
@@ -79,7 +79,7 @@ void Database::initDatabase() {
       "VALUES('Toyota', 'Yaris', '2006', 'RED');",
 
       "INSERT OR IGNORE INTO userVehicle (idUser, idVehicle, date) "
-      "VALUES(0, 0, '00-00-0000');",
+      "VALUES(1, 1, '00-00-0000');",
   };
 
   for (const std::string &sql : tables) {
