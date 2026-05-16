@@ -16,10 +16,12 @@ RegisterController::RegisterController(RegisterModel *model, RegisterView *view,
 RegisterController::~RegisterController() = default;
 
 void RegisterController::OnBackClicked(wxCommandEvent &event) {
+  _view->clearFields();
   router->navigate("login");
 }
 
 void RegisterController::OnRegisterClicked(wxCommandEvent &event) {
+  _view->setErrors({});
   std::string name = _view->getNameValue().ToStdString();
   std::string surname = _view->getSurnameValue().ToStdString();
   std::string email = _view->getEmailValue().ToStdString();
@@ -48,6 +50,7 @@ void RegisterController::OnRegisterClicked(wxCommandEvent &event) {
   }
 
   if (_model->registerUser(name, surname, email, password)) {
+    _view->clearFields();
     router->navigate("login");
   }
 }

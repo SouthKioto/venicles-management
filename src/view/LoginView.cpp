@@ -116,3 +116,9 @@ void LoginView::setErrors(const std::vector<std::string> &errors) {
 }
 
 std::vector<std::string> LoginView::getErrors() const { return this->errors; }
+
+void LoginView::clearFields() {
+  email->Clear();
+  password->Clear();
+  setErrors({});
+}
