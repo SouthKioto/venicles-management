@@ -17,7 +17,7 @@ private:
 public:
   Router *router;
   HomeController(HomeView *view, HomeModel *model, Router *router);
-  ~HomeController();
+  virtual ~HomeController();
 };
 
 #endif // !HOMECONTROLLER_HPP

@@ -1,6 +1,6 @@
 #include "../include/controller/RegisterController.hpp"
-#include <vector>
 #include <string>
+#include <vector>
 
 RegisterController::RegisterController(RegisterModel *model, RegisterView *view,
                                        Router *router, Logger *logger,
@@ -8,11 +8,12 @@ RegisterController::RegisterController(RegisterModel *model, RegisterView *view,
     : _model(model), _view(view), router(router), logger(logger),
       validator(validator) {
 
-  _view->registerBtn->Bind(wxEVT_BUTTON, &RegisterController::OnRegisterClicked, this);
+  _view->registerBtn->Bind(wxEVT_BUTTON, &RegisterController::OnRegisterClicked,
+                           this);
   _view->backBtn->Bind(wxEVT_BUTTON, &RegisterController::OnBackClicked, this);
 }
 
-RegisterController::~RegisterController() {}
+RegisterController::~RegisterController() = default;
 
 void RegisterController::OnBackClicked(wxCommandEvent &event) {
   router->navigate("login");
@@ -27,17 +28,13 @@ void RegisterController::OnRegisterClicked(wxCommandEvent &event) {
 
   std::vector<std::string> errors;
 
-  if (validator->checkEmpty(name) || 
-      validator->checkEmpty(surname) ||
-      validator->checkEmpty(email) || 
-      validator->checkEmpty(password) ||
+  if (validator->checkEmpty(name) || validator->checkEmpty(surname) ||
+      validator->checkEmpty(email) || validator->checkEmpty(password) ||
       !validator->validateEmail(email)) {
-  } 
-  else if (password != confirm) {
-      errors.push_back("Passwords do not match.");
-  } 
-  else {
-      _model->checkUserExists(email);
+  } else if (password != confirm) {
+    errors.push_back("Passwords do not match.");
+  } else {
+    _model->checkUserExists(email);
   }
 
   std::vector<std::string> valErrors = validator->getErrors();

@@ -15,6 +15,7 @@ private:
 
 public:
   Validator(Logger &loggerInstance);
+  ~Validator();
 
   bool validateEmail(const std::string &email);
 

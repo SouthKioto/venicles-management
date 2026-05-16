@@ -7,13 +7,16 @@ class VenicleManagement : public wxApp {
 
 public:
   virtual bool OnInit() override {
-    Logger *logger = new Logger;
-    Database *database = new Database(logger);
+
+    std::unique_ptr<Logger> logger = std::make_unique<Logger>();
+
+    std::unique_ptr<Database> database =
+        std::make_unique<Database>(logger.get());
     database->initDatabase();
 
-    MainView *mainView = new MainView(logger, database);
+    std::unique_ptr<MainView> mainView =
+        std::make_unique<MainView>(logger.get(), database.get());
     mainView->Show();
-
     return true;
   }
 };

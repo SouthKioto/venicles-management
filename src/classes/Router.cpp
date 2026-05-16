@@ -3,11 +3,7 @@
 Router::Router(wxWindow *container, Logger *logger)
     : container(container), logger(logger) {}
 
-Router::~Router() {
-
-  // INFO: na razie nic
-  // TODO: przy destrukcji usuwanie wszystkich dodanych widokow (?)
-}
+Router::~Router() = default;
 
 // TODO: dodanie json-a z opcjami np: debug: on/off ect
 bool Router::findRoute(const std::string &name, bool isSilent) {
@@ -58,7 +54,7 @@ void Router::navigate(std::string name) {
     return;
   }
 
-  if (!current.empty()) {
+  if (!current.empty() && routes[current]) {
     routes[current]->Hide();
   }
 
