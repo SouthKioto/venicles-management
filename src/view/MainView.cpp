@@ -12,17 +12,19 @@
 #include "../include/view/LoginView.hpp"
 #include "../include/view/RegisterView.hpp"
 
+#include <memory>
+
 MainView::MainView(Logger *logger, Database *database)
     : wxFrame(NULL, wxID_ANY, "Venicle Management App") {
   this->database = database;
   this->logger = logger;
 
-  Validator *validator = new Validator(*logger);
-
   SetClientSize(wxSize(600, 400));
 
+  validator = std::make_unique<Validator>(*logger);
+
   wxPanel *container = new wxPanel(this);
-  router = new Router(container, logger);
+  router = std::make_unique<Router>(container, logger);
 
   LoginModel *loginModel = new LoginModel(database, logger);
   RegisterModel *registerModel = new RegisterModel(database, logger);
@@ -32,22 +34,30 @@ MainView::MainView(Logger *logger, Database *database)
   HomeView *homeView = new HomeView(container, router, database, logger);
   RegisterView *registerView = new RegisterView(container, router);
 
-  new LoginController(loginModel, loginView, router, this->database,
-                      this->logger, validator);
-  new HomeController(homeView, homeModel, router);
-  new RegisterController(registerModel, registerView, router, this->logger,
-                         validator);
+  loginController = std::make_unique<LoginController>(
+      loginModel.get(), loginView, router.get(), this->database, this->logger,
+      validator.get());
 
-  homeView->Hide();
-  registerView->Hide();
+  homeController =
+      std::make_unique<HomeController>(homeView, homeModel.get(), router.get());
+
+  registerController = std::make_unique<RegisterController>(
+      registerModel.get(), registerView, router.get(), this->logger,
+      validator.get());
+
   router->add("login", loginView);
   router->add("home", homeView);
   router->add("register", registerView);
 
+  homeView->Hide();
+  registerView->Hide();
+
   wxBoxSizer *containerSizer = new wxBoxSizer(wxVERTICAL);
+
   containerSizer->Add(loginView, 1, wxEXPAND);
-  containerSizer->Add(homeView, 1, wxEXPAND);
   containerSizer->Add(registerView, 1, wxEXPAND);
+  containerSizer->Add(homeView, 1, wxEXPAND);
+
   container->SetSizer(containerSizer);
 
   wxBoxSizer *frameSizer = new wxBoxSizer(wxVERTICAL);
@@ -61,3 +71,5 @@ MainView::MainView(Logger *logger, Database *database)
   this->Raise();
   this->Update();
 }
+
+MainView::~MainView() = default;
