@@ -66,6 +66,8 @@ void Router::navigate(std::string name) {
   routes[name]->Show();
 
   container->Layout();
+  container->Refresh();
+  container->Update();
   current = name;
 }
 

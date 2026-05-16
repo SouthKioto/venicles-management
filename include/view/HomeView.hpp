@@ -1,9 +1,12 @@
 #ifndef HOMEVIEW_HPP
 #define HOMEVIEW_HPP
 
+#include "../include/view/VehicleCarouselWidget.hpp"
 #include <wx/wx.h>
 
 class Router;
+class Database;
+class Logger;
 
 class HomeView : public wxPanel {
 private:
@@ -12,7 +15,8 @@ private:
 public:
   wxButton *logoutBtn;
 
-  HomeView(wxWindow *window, Router *router);
+  HomeView(wxWindow *window, Router *router, Database *database,
+           Logger *logger);
 
   void change();
 };

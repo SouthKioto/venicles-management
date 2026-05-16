@@ -28,11 +28,13 @@ MainView::MainView(Logger *logger, Database *database)
 
   loginModel = std::make_unique<LoginModel>(database, logger);
   registerModel = std::make_unique<RegisterModel>(database, logger);
-  homeModel = std::make_unique<HomeModel>();
+  homeModel = std::make_unique<HomeModel>(database, logger);
 
   loginView = new LoginView(container, router.get());
+  homeView = new HomeView(container, router.get(), database, logger);
   registerView = new RegisterView(container, router.get());
-  homeView = new HomeView(container, router.get());
+
+
 
   loginController = std::make_unique<LoginController>(
       loginModel.get(), loginView, router.get(), this->database, this->logger,
@@ -65,6 +67,11 @@ MainView::MainView(Logger *logger, Database *database)
   this->SetSizer(frameSizer);
 
   router->navigate("login");
+  container->Layout();
+  this->Layout();
+  this->Centre(wxBOTH);
+  this->Raise();
+  this->Update();
 }
 
 MainView::~MainView() = default;

@@ -14,8 +14,10 @@ public:
     database->initDatabase();
 
     MainView *mainView = new MainView(logger, database);
-    mainView->Show(true);
     SetTopWindow(mainView);
+    mainView->Show(true);
+    mainView->Raise();
+    mainView->SetFocus();
 
     return true;
   }
