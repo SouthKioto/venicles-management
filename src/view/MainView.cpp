@@ -45,15 +45,19 @@ MainView::MainView(Logger *logger, Database *database)
       registerModel.get(), registerView, router.get(), this->logger,
       validator.get());
 
-  homeView->Hide();
-  registerView->Hide();
-
   router->add("login", loginView);
   router->add("home", homeView);
   router->add("register", registerView);
 
+  homeView->Hide();
+  registerView->Hide();
+
   wxBoxSizer *containerSizer = new wxBoxSizer(wxVERTICAL);
+
   containerSizer->Add(loginView, 1, wxEXPAND);
+  containerSizer->Add(registerView, 1, wxEXPAND);
+  containerSizer->Add(homeView, 1, wxEXPAND);
+
   container->SetSizer(containerSizer);
 
   wxBoxSizer *frameSizer = new wxBoxSizer(wxVERTICAL);
