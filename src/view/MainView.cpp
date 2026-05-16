@@ -26,13 +26,15 @@ MainView::MainView(Logger *logger, Database *database)
   wxPanel *container = new wxPanel(this);
   router = std::make_unique<Router>(container, logger);
 
-  LoginModel *loginModel = new LoginModel(database, logger);
-  RegisterModel *registerModel = new RegisterModel(database, logger);
-  HomeModel *homeModel = new HomeModel(database, logger);
+  loginModel = std::make_unique<LoginModel>(database, logger);
+  registerModel = std::make_unique<RegisterModel>(database, logger);
+  homeModel = std::make_unique<HomeModel>(database, logger);
 
-  LoginView *loginView = new LoginView(container, router);
-  HomeView *homeView = new HomeView(container, router, database, logger);
-  RegisterView *registerView = new RegisterView(container, router);
+  loginView = new LoginView(container, router.get());
+  homeView = new HomeView(container, router.get(), database, logger);
+  registerView = new RegisterView(container, router.get());
+
+
 
   loginController = std::make_unique<LoginController>(
       loginModel.get(), loginView, router.get(), this->database, this->logger,
