@@ -21,6 +21,7 @@ LoginController::LoginController(LoginModel *model, LoginView *view,
 LoginController::~LoginController() = default;
 
 void LoginController::OnRegisterClicked(wxCommandEvent &event) {
+  _view->clearFields();
   router->navigate("register");
 }
 
@@ -52,5 +53,6 @@ void LoginController::OnSubmitClicked(wxCommandEvent &event) {
 
   Session::getInstance().login(&user);
 
+  _view->clearFields();
   router->navigate("home");
 }

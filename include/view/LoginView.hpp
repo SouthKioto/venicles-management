@@ -22,6 +22,8 @@ public:
 
   void setErrors(const std::vector<std::string> &errors);
 
+  void clearFields();
+
   std::vector<std::string> getErrors() const;
 
   wxString getEmailValue() const { return email->GetValue(); }
