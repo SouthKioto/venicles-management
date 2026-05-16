@@ -1,18 +1,18 @@
 #include "../../include/classes/Vehicle.hpp"
 
 // Konstruktor
-Vehicle::Vehicle(std::string make, std::string model, std::string year,
+Vehicle::Vehicle(std::string brand, std::string model, std::string year,
                  std::string color, std::string licensePlate, std::string vin,
                  User owner)
-    : make(make), model(model), year(year), color(color),
+    : brand(brand), model(model), year(year), color(color),
       licensePlate(licensePlate), vin(vin), owner(owner) {}
 
 Vehicle::~Vehicle() {}
 
 // --- Settery ---
 
-void Vehicle::setMake(std::string make) { 
-    this->make = make; 
+void Vehicle::setBrand(std::string brand) { 
+    this->brand = brand; 
 }
 
 void Vehicle::setModel(std::string model) { 
@@ -41,8 +41,8 @@ void Vehicle::setOwner(User owner) {
 
 // --- Gettery ---
 
-std::string Vehicle::getMake() const { 
-    return make; 
+std::string Vehicle::getBrand() const { 
+    return brand; 
 }
 
 std::string Vehicle::getModel() const { 

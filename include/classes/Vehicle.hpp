@@ -6,7 +6,7 @@
 
 class Vehicle {
 private:
-    std::string make;
+    std::string brand;
     std::string model;
     std::string year;
     std::string color;
@@ -15,13 +15,13 @@ private:
     User owner;
 
 public:
-    Vehicle(std::string make, std::string model, std::string year, std::string color,
+    Vehicle(std::string brand, std::string model, std::string year, std::string color,
             std::string licensePlate, std::string vin, User owner);
 
     virtual ~Vehicle();
 
     // info: settery
-    void setMake(std::string make);
+    void setBrand(std::string brand);
     void setModel(std::string model);
     void setYear(std::string year);
     void setColor(std::string color);
@@ -30,7 +30,7 @@ public:
     void setOwner(User owner);
 
     // info: gettery
-    std::string getMake() const;
+    std::string getBrand() const;
     std::string getModel() const;
     std::string getYear() const;
     std::string getColor() const;
