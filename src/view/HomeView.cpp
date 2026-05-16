@@ -1,7 +1,11 @@
 
 #include "../include/view/HomeView.hpp"
+#include "../include/classes/Session.hpp"
 
 HomeView::HomeView(wxWindow *window, Router *router) : wxPanel(window) {
+
+  std::cout << Session::getInstance().getEmail();
+
   SetBackgroundColour(wxColour(17, 24, 39));
   SetForegroundColour(wxColour(229, 231, 235));
 
@@ -33,11 +37,11 @@ HomeView::HomeView(wxWindow *window, Router *router) : wxPanel(window) {
       new wxStaticText(mainPanel, wxID_ANY, "Panel", wxDefaultPosition,
                        wxDefaultSize, wxALIGN_CENTER);
   panelTitle->SetForegroundColour(wxColour(255, 255, 255));
-  panelTitle->SetFont(wxFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL,
-                            wxFONTWEIGHT_BOLD));
+  panelTitle->SetFont(
+      wxFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
   wxStaticText *panelDesc =
-      new wxStaticText(mainPanel, wxID_ANY, "Opis panelu",
-                       wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
+      new wxStaticText(mainPanel, wxID_ANY, "Opis panelu", wxDefaultPosition,
+                       wxDefaultSize, wxALIGN_CENTER);
   panelDesc->SetForegroundColour(wxColour(107, 114, 128));
   panelSizer->AddStretchSpacer(1);
   panelSizer->Add(panelTitle, 0, wxEXPAND | wxBOTTOM, 8);

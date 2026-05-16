@@ -8,6 +8,8 @@ HomeController::HomeController(HomeView *view, HomeModel *model, Router *router)
   _view->logoutBtn->Bind(wxEVT_BUTTON, &HomeController::OnLogoutClicked, this);
 }
 
+HomeController::~HomeController() = default;
+
 void HomeController::OnLogoutClicked(wxCommandEvent &event) {
   Session::getInstance().logout();
   this->router->navigate("login");

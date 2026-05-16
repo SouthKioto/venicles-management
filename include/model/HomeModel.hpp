@@ -4,6 +4,8 @@
 class HomeModel {
 private:
 public:
+  HomeModel();
+  ~HomeModel();
 };
 
 #endif // !HOMEMODEL_HPP

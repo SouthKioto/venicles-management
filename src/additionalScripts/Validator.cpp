@@ -2,6 +2,8 @@
 
 Validator::Validator(Logger &loggerInstance) : logger(loggerInstance) {};
 
+Validator::~Validator() = default;
+
 bool Validator::validateEmail(const std::string &email) {
   const std::regex emailPattern(R"(^[^\s@]+@[^\s@.]+\.[^\s@]{2,}$)");
 

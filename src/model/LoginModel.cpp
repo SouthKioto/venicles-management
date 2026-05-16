@@ -7,6 +7,8 @@ LoginModel::LoginModel(Database *conn, Logger *logger)
   errors.clear();
 }
 
+LoginModel::~LoginModel() = default;
+
 std::vector<std::string> LoginModel::getErrors() {
   std::vector<std::string> tmpErr = this->errors;
   this->errors.clear();
