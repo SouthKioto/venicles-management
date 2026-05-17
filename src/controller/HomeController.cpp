@@ -10,6 +10,8 @@ HomeController::HomeController(HomeView *view, HomeModel *model, Router *router)
                            this);
 }
 
+HomeController::~HomeController() = default;
+
 void HomeController::OnLogoutClicked(wxCommandEvent &event) {
   Session::getInstance().logout();
   this->router->navigate("login");

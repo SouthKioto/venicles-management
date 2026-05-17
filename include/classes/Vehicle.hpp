@@ -19,7 +19,6 @@ public:
   Vehicle(std::string brand, std::string model, std::string year,
           std::string color, std::string licensePlate, std::string vin,
           User owner);
-
   Vehicle();
 
   virtual ~Vehicle();

@@ -11,8 +11,6 @@ Vehicle::Vehicle() {};
 
 Vehicle::~Vehicle() {}
 
-// --- Settery ---
-
 void Vehicle::setId(int id) { this->id = id; };
 
 void Vehicle::setBrand(std::string brand) { this->brand = brand; }
@@ -31,7 +29,6 @@ void Vehicle::setVin(std::string vin) { this->vin = vin; }
 
 void Vehicle::setOwner(User owner) { this->owner = owner; }
 
-// --- Gettery ---
 int Vehicle::getId() const { return this->id; }
 
 std::string Vehicle::getBrand() const { return this->brand; }

@@ -7,6 +7,8 @@ LoginModel::LoginModel(Database *conn, Logger *logger)
   errors.clear();
 }
 
+LoginModel::~LoginModel() = default;
+
 std::vector<std::string> LoginModel::getErrors() {
   std::vector<std::string> tmpErr = this->errors;
   this->errors.clear();
@@ -24,6 +26,7 @@ std::optional<User> LoginModel::returnUserData(const std::string &email) {
         (const bool)sqlite3_column_text(stmt, 4) == 1 ? true : false);
     return user;
   };
+
   std::string sql =
       "SELECT id, name, surname, email, isAdmin FROM users WHERE email = '" +
       email + "' LIMIT 1;";

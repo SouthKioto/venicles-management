@@ -14,38 +14,41 @@
 #include "../include/view/LoginView.hpp"
 #include "../include/view/RegisterView.hpp"
 #include "../include/view/UserPageView.hpp"
+#include <memory>
 
 MainView::MainView(Logger *logger, Database *database)
     : wxFrame(NULL, wxID_ANY, "Venicle Management App") {
   this->database = database;
   this->logger = logger;
+  SetClientSize(wxSize(600, 400));
 
-  SetClientSize(wxSize(900, 500));
+  validator = std::make_unique<Validator>(*logger);
+
   container = new wxPanel(this);
-  router = new Router(container, logger);
-  containerSizer = new wxBoxSizer(wxVERTICAL);
+  router = std::make_unique<Router>(container, logger);
 
-  Validator *validator = new Validator(*logger);
+  loginModel = std::make_unique<LoginModel>(database, logger);
+  registerModel = std::make_unique<RegisterModel>(database, logger);
 
-  LoginModel *loginModel = new LoginModel(database, logger);
-  RegisterModel *registerModel = new RegisterModel(database, logger);
+  loginView = new LoginView(container, router.get());
+  registerView = new RegisterView(container, router.get());
 
-  LoginView *loginView = new LoginView(container, router);
-  RegisterView *registerView = new RegisterView(container, router);
+  loginController = std::make_unique<LoginController>(
+      loginModel.get(), loginView, router.get(), this->database, this->logger,
+      validator.get());
 
-  new LoginController(loginModel, loginView, router, database, logger,
-                      validator, this);
-  new RegisterController(registerModel, registerView, router, logger,
-                         validator);
-
-  registerView->Hide();
+  registerController = std::make_unique<RegisterController>(
+      registerModel.get(), registerView, router.get(), this->logger,
+      validator.get());
 
   router->add("login", loginView);
   router->add("register", registerView);
 
+  registerView->Hide();
+
+  containerSizer = new wxBoxSizer(wxVERTICAL);
   containerSizer->Add(loginView, 1, wxEXPAND);
   containerSizer->Add(registerView, 1, wxEXPAND);
-
   container->SetSizer(containerSizer);
 
   wxBoxSizer *frameSizer = new wxBoxSizer(wxVERTICAL);
@@ -53,17 +56,24 @@ MainView::MainView(Logger *logger, Database *database)
   this->SetSizer(frameSizer);
 
   router->navigate("login");
+  container->Layout();
+  this->Layout();
+  this->Centre(wxBOTH);
+  this->Raise();
+  this->Update();
 }
 
 void MainView::initViews() {
-  HomeModel *homeModel = new HomeModel();
-  UserPageModel *userModel = new UserPageModel(database, logger);
+  homeModel = std::make_unique<HomeModel>(database, logger);
+  userPageModel = std::make_unique<UserPageModel>(database, logger);
 
-  HomeView *homeView = new HomeView(container, router);
-  UserPageView *userPageView = new UserPageView(container);
+  homeView = new HomeView(container, router.get(), database, logger);
+  userPageView = new UserPageView(container);
 
-  new HomeController(homeView, homeModel, router);
-  new UserPageController(userPageView, userModel, router);
+  homeController =
+      std::make_unique<HomeController>(homeView, homeModel.get(), router.get());
+  userPageController = std::make_unique<UserPageController>(
+      userPageView, userPageModel.get(), router.get());
 
   homeView->Hide();
   userPageView->Hide();
@@ -73,8 +83,9 @@ void MainView::initViews() {
 
   containerSizer->Add(homeView, 1, wxEXPAND);
   containerSizer->Add(userPageView, 1, wxEXPAND);
-
   container->Layout();
 
   router->navigate("home");
 }
+
+MainView::~MainView() = default;

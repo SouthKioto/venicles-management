@@ -21,6 +21,7 @@ private:
 
 public:
   LoginModel(Database *conn, Logger *logger);
+  ~LoginModel();
 
   bool getLoginFlag();
 

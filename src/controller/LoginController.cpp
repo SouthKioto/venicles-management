@@ -19,7 +19,7 @@ LoginController::LoginController(LoginModel *model, LoginView *view,
                            this);
 }
 
-LoginController::~LoginController() {}
+LoginController::~LoginController() = default;
 
 void LoginController::OnRegisterClicked(wxCommandEvent &event) {
   router->navigate("register");
