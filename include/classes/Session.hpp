@@ -22,9 +22,9 @@ public:
 
   bool isLogged() const;
   bool getAdmin() const;
+  std::string getEmail() const;
   std::string getName() const;
   std::string getSurname() const;
-  std::string getEmail() const;
   int getUserId() const;
 };
 

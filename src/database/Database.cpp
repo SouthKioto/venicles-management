@@ -71,6 +71,7 @@ void Database::initDatabase() {
       "VALUES('admin', 'admin', 'admin@example.com', '123', 1);",
 
       "INSERT OR IGNORE INTO users (name, surname, email, password, isAdmin) "
+
       "VALUES('Jan', 'Kowalski', 'JanK@example.com', '123', 0);",
 
       "INSERT OR IGNORE INTO vehicle (brand, vin, model, year, color) "

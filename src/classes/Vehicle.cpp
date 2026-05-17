@@ -7,64 +7,40 @@ Vehicle::Vehicle(std::string brand, std::string model, std::string year,
     : brand(brand), model(model), year(year), color(color),
       licensePlate(licensePlate), vin(vin), owner(owner) {}
 
+Vehicle::Vehicle() {};
+
 Vehicle::~Vehicle() {}
 
-// --- Settery ---
+void Vehicle::setId(int id) { this->id = id; };
 
-void Vehicle::setBrand(std::string brand) { 
-    this->brand = brand; 
-}
+void Vehicle::setBrand(std::string brand) { this->brand = brand; }
 
-void Vehicle::setModel(std::string model) { 
-    this->model = model; 
-}
+void Vehicle::setModel(std::string model) { this->model = model; }
 
-void Vehicle::setYear(std::string year) { 
-    this->year = year; 
-}
+void Vehicle::setYear(std::string year) { this->year = year; }
 
-void Vehicle::setColor(std::string color) { 
-    this->color = color; 
-}
+void Vehicle::setColor(std::string color) { this->color = color; }
 
 void Vehicle::setLicensePlate(std::string licensePlate) {
-    this->licensePlate = licensePlate;
+  this->licensePlate = licensePlate;
 }
 
-void Vehicle::setVin(std::string vin) { 
-    this->vin = vin; 
-}
+void Vehicle::setVin(std::string vin) { this->vin = vin; }
 
-void Vehicle::setOwner(User owner) { 
-    this->owner = owner; 
-}
+void Vehicle::setOwner(User owner) { this->owner = owner; }
 
-// --- Gettery ---
+int Vehicle::getId() const { return this->id; }
 
-std::string Vehicle::getBrand() const { 
-    return brand; 
-}
+std::string Vehicle::getBrand() const { return this->brand; }
 
-std::string Vehicle::getModel() const { 
-    return model; 
-}
+std::string Vehicle::getModel() const { return this->model; }
 
-std::string Vehicle::getYear() const { 
-    return year; 
-}
+std::string Vehicle::getYear() const { return this->year; }
 
-std::string Vehicle::getColor() const { 
-    return color; 
-}
+std::string Vehicle::getColor() const { return this->color; }
 
-std::string Vehicle::getLicensePlate() const { 
-    return licensePlate; 
-}
+std::string Vehicle::getLicensePlate() const { return this->licensePlate; }
 
-std::string Vehicle::getVin() const { 
-    return vin; 
-}
+std::string Vehicle::getVin() const { return this->vin; }
 
-User Vehicle::getOwner() const { 
-    return owner; 
-}
+User Vehicle::getOwner() const { return this->owner; }

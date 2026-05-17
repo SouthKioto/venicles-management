@@ -14,6 +14,7 @@ private:
 
 public:
   wxButton *logoutBtn;
+  wxButton *userPageBtn;
 
   HomeView(wxWindow *window, Router *router, Database *database,
            Logger *logger);

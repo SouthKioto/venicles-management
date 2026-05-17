@@ -9,6 +9,7 @@ class Router;
 class Database;
 class Logger;
 class Validator;
+class MainView;
 
 class LoginController {
 
@@ -24,9 +25,11 @@ public:
   Database *database;
   Logger *logger;
   Validator *validator;
+  MainView *mainview;
 
   LoginController(LoginModel *model, LoginView *view, Router *router,
-                  Database *database, Logger *logger, Validator *validator);
+                  Database *database, Logger *logger, Validator *validator,
+                  MainView *mainview);
   ~LoginController();
 };
 

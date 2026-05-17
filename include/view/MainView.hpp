@@ -21,6 +21,10 @@ class HomeModel;
 class HomeView;
 class HomeController;
 
+class UserPageModel;
+class UserPageView;
+class UserPageController;
+
 class MainView : public wxFrame {
 private:
   std::unique_ptr<Router> router;
@@ -39,10 +43,19 @@ private:
   std::unique_ptr<HomeModel> homeModel;
   std::unique_ptr<HomeController> homeController;
 
+  UserPageView *userPageView;
+  std::unique_ptr<UserPageModel> userPageModel;
+  std::unique_ptr<UserPageController> userPageController;
+
 public:
   Logger *logger;
   Database *database;
+  wxPanel *container;
+  wxBoxSizer *containerSizer;
+
   MainView(Logger *logger, Database *database);
+
+  void initViews();
   ~MainView();
 };
 

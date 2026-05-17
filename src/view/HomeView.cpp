@@ -21,9 +21,16 @@ HomeView::HomeView(wxWindow *window, Router *router, Database *database,
   logoutBtn->SetFont(
       wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
 
+  userPageBtn = new wxButton(this, wxID_ANY, "Twoje konto");
+  userPageBtn->SetBackgroundColour(wxColour(55, 65, 81));
+  userPageBtn->SetForegroundColour(wxColour(255, 255, 255));
+  userPageBtn->SetFont(
+      wxFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD));
+
   titleRow->Add(labelTitle, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
   titleRow->AddStretchSpacer(1);
   titleRow->Add(logoutBtn, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
+  titleRow->Add(userPageBtn, 0, wxALL | wxALIGN_CENTER_VERTICAL, 5);
 
   mainSizer->Add(titleRow, 0, wxEXPAND | wxALL, 5);
 

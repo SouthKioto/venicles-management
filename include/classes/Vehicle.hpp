@@ -1,42 +1,47 @@
 #ifndef VEHICLE_HPP
 #define VEHICLE_HPP
 
+#include "User.hpp" // Zakładam, że User.hpp jest w tym samym folderze
 #include <string>
-#include "User.hpp"
 
 class Vehicle {
 private:
-    std::string brand;
-    std::string model;
-    std::string year;
-    std::string color;
-    std::string licensePlate;
-    std::string vin;
-    User owner;
+  int id;
+  std::string brand;
+  std::string model;
+  std::string year;
+  std::string color;
+  std::string licensePlate;
+  std::string vin;
+  User owner;
 
 public:
-    Vehicle(std::string brand, std::string model, std::string year, std::string color,
-            std::string licensePlate, std::string vin, User owner);
+  Vehicle(std::string brand, std::string model, std::string year,
+          std::string color, std::string licensePlate, std::string vin,
+          User owner);
+  Vehicle();
 
-    virtual ~Vehicle();
+  virtual ~Vehicle();
 
-    // info: settery
-    void setBrand(std::string brand);
-    void setModel(std::string model);
-    void setYear(std::string year);
-    void setColor(std::string color);
-    void setLicensePlate(std::string licensePlate);
-    void setVin(std::string vin);
-    void setOwner(User owner);
+  // info: settery
+  void setId(int id);
+  void setBrand(std::string brand);
+  void setModel(std::string model);
+  void setYear(std::string year);
+  void setColor(std::string color);
+  void setLicensePlate(std::string licensePlate);
+  void setVin(std::string vin);
+  void setOwner(User owner);
 
-    // info: gettery
-    std::string getBrand() const;
-    std::string getModel() const;
-    std::string getYear() const;
-    std::string getColor() const;
-    std::string getLicensePlate() const;
-    std::string getVin() const;
-    User getOwner() const;
+  // info: gettery
+  int getId() const;
+  std::string getBrand() const;
+  std::string getModel() const;
+  std::string getYear() const;
+  std::string getColor() const;
+  std::string getLicensePlate() const;
+  std::string getVin() const;
+  User getOwner() const;
 };
 
 #endif // VEHICLE_HPP
